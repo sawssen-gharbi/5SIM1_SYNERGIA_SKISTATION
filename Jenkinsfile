@@ -22,12 +22,14 @@ pipeline {
         }
     }
 
-    post {
+     post {
         success {
-
+            // Actions à effectuer en cas de succès
+             echo "Success!"
         }
         failure {
-
+            // Actions à effectuer en cas d'échec
+            echo "Failure!"
         }
     }
 }
