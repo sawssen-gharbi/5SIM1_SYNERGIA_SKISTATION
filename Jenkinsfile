@@ -23,11 +23,13 @@ pipeline {
     }
 
     post {
-        success {
-            // Vous pouvez ajouter ici des actions à effectuer en cas de succès
-        }
-        failure {
-            // Vous pouvez ajouter ici des actions à effectuer en cas d'échec
-        }
-    }
+          success {
+              // Actions à effectuer en cas de succès
+              sh 'echo "Success!"'
+          }
+          failure {
+              // Actions à effectuer en cas d'échec
+              sh 'echo "Failure!"'
+          }
+      }
 }
