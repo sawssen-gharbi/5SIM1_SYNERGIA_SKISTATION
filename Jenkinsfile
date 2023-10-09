@@ -13,23 +13,21 @@ pipeline {
 
         stage('Nettoyage et compilation avec Maven') {
             steps {
-
+                // Nettoyage du projet avec Maven
                 sh 'mvn clean'
 
-
+                // Compilation du projet avec Maven
                 sh 'mvn compile'
             }
         }
     }
 
-     post {
+    post {
         success {
-            // Actions à effectuer en cas de succès
-            sh 'echo "Success!"'
+            // Vous pouvez ajouter ici des actions à effectuer en cas de succès
         }
         failure {
-            // Actions à effectuer en cas d'échec
-            sh 'echo "Failure!"'
+            // Vous pouvez ajouter ici des actions à effectuer en cas d'échec
         }
     }
 }
