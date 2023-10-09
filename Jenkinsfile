@@ -25,11 +25,11 @@ pipeline {
      post {
         success {
             // Actions à effectuer en cas de succès
-             echo "Success!"
+            sh 'echo "Success!"'
         }
         failure {
             // Actions à effectuer en cas d'échec
-            echo "Failure!"
+            sh 'echo "Failure!"'
         }
     }
 }
