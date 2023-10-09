@@ -5,8 +5,8 @@ pipeline {
         stage('Récupération du code de la branche') {
             steps {
                 // Vous pouvez spécifier ici comment récupérer le code de la branche
-                // Par exemple, en utilisant Git :
-                sh 'git checkout <achref>'
+                // Par exemple, en utilisant Git, remplacez '<achref>' par le nom réel de la branche :
+                sh 'git checkout achref'
                 sh 'git pull'
             }
         }
@@ -23,13 +23,13 @@ pipeline {
     }
 
     post {
-          success {
-              // Actions à effectuer en cas de succès
-              sh 'echo "Success!"'
-          }
-          failure {
-              // Actions à effectuer en cas d'échec
-              sh 'echo "Failure!"'
-          }
-      }
+        success {
+            // Actions à effectuer en cas de succès
+            sh 'echo "Success!"'
+        }
+        failure {
+            // Actions à effectuer en cas d'échec
+            sh 'echo "Failure!"'
+        }
+    }
 }
