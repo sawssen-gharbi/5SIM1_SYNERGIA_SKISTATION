@@ -20,13 +20,12 @@ pipeline {
                 sh 'mvn compile'
             }
         }
-          stage('MVN SONARQUBE') {
-                     steps {
-                         // Lancer l'analyse de la qualité du code avec SonarQube
-                         sh 'mvn sonar:sonar -Dsonar.login=Rania28769679'
+         stage('MVN SONARQUBE') {
+             steps {
+                 sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=Rania28769679'
+             }
+         }
 
-                     }
-                 }
     }
 
     post {
