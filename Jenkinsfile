@@ -22,11 +22,11 @@ pipeline {
         }
          stage('MVN SONARQUBE') {
              steps {
-                 sh 'mvn sonar:sonar -Dsonar.login=rania -Dsonar.password=rania'
+                 sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=rania'
              }
          }
-    }
 
+}
     post {
         success {
             // Actions à effectuer en cas de succès
