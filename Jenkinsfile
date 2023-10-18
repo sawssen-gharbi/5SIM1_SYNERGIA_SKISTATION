@@ -25,7 +25,12 @@ pipeline {
                  sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=rania'
              }
          }
-
+stage('Tests unitaires avec Mockito') {
+            steps {
+                // Exécutez les tests unitaires pour chaque module ici
+                sh 'mvn test' // Assurez-vous que vos tests sont configurés pour être exécutés avec Mockito.
+            }
+        }
 }
     post {
         success {
