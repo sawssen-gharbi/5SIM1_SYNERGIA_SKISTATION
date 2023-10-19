@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('Récupération du code de la branche') {
+        stage('GIT') {
             steps {
 
                 sh 'git checkout sawssen'
@@ -10,7 +10,7 @@ pipeline {
             }
         }
 
-        stage('Nettoyage et compilation avec Maven') {
+        stage('MVN CLEAN AND COMPILE') {
             steps {
                 // Nettoyage du projet avec Maven
                 sh 'mvn clean'
@@ -24,6 +24,12 @@ pipeline {
                          sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar'
                      }
                  }
+        stage('TESTS UNITAIRES MOCKITO') {
+                      steps {
+
+                                 sh 'mvn test'
+                             }
+                         }
     }
 
     post {
