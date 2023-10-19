@@ -21,36 +21,26 @@ public class InstructorServicesImpl implements IInstructorServices{
     private ICourseRepository courseRepository;
 
     @Override
-    @Test
-    @Order(0)
     public Instructor addInstructor(Instructor instructor) {
         return instructorRepository.save(instructor);
     }
 
     @Override
-    @Test
-    @Order(2)
     public List<Instructor> retrieveAllInstructors() {
         return instructorRepository.findAll();
     }
 
     @Override
-    @Test
-    @Order(1)
     public Instructor updateInstructor(Instructor instructor) {
         return instructorRepository.save(instructor);
     }
 
     @Override
-    @Test
-    @Order(3)
     public Instructor retrieveInstructor(Long numInstructor) {
         return instructorRepository.findById(numInstructor).orElse(null);
     }
 
     @Override
-    @Test
-    @Order(4)
     public Instructor addInstructorAndAssignToCourse(Instructor instructor, Long numCourse) {
         Course course = courseRepository.findById(numCourse).orElse(null);
         Set<Course> courseSet = new HashSet<>();

@@ -12,17 +12,12 @@ import tn.esprit.spring.services.InstructorServicesImpl;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-@ExtendWith(MockitoExtension.class)
 class GestionStationSkiApplicationTests {
 
 	@Test
 	void contextLoads() {
 	}
 
-	@Mock
-	IInstructorRepository instructorRepository;
 
-	@InjectMocks
-	InstructorServicesImpl instructorServices;
 
 }
