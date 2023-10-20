@@ -1,8 +1,6 @@
 package tn.esprit.spring.services;
 
 import lombok.AllArgsConstructor;
-import org.junit.jupiter.api.Test;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 import tn.esprit.spring.entities.Course;
 import tn.esprit.spring.entities.Instructor;
