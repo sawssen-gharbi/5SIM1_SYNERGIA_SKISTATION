@@ -25,6 +25,13 @@ pipeline {
                                  }
                              }
 
+            stage('TESTS UNITAIRES MOCKITO') {
+                    steps {
+
+                          sh 'mvn test'
+                                }
+                                }
+
 
         }
     }
