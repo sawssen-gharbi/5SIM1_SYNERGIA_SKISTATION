@@ -18,22 +18,17 @@ pipeline {
                 // Compilation du projet avec Maven
                 sh 'mvn compile'
             }
+        }
+         stage('MVN SONARQUBE') {
+             steps {
+                 sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar'
+             }
+         }
+  stage('TESTS UNITAIRES MOCKITO') {
+            steps {
+
+                sh 'mvn test'
             }
-
-             stage('MVN SONARQUBE') {
-                  steps {
-                     sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar'
-                                 }
-                             }
-
-            stage('TESTS UNITAIRES MOCKITO') {
-                    steps {
-
-                          sh 'mvn test'
-                                }
-                                }
-
-
         }
     }
 
