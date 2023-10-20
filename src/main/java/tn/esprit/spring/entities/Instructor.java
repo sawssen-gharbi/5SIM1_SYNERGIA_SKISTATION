@@ -18,7 +18,6 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level=AccessLevel.PRIVATE)
 @Entity
-@Builder
 public class Instructor implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

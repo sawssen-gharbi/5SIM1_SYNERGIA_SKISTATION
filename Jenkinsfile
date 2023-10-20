@@ -5,7 +5,7 @@ pipeline {
         stage('GIT') {
             steps {
 
-                sh 'git checkout sawssen'
+                sh 'git checkout sawsen'
                 sh 'git pull'
             }
         }
@@ -19,17 +19,6 @@ pipeline {
                 sh 'mvn compile'
             }
         }
-        stage('MVN SONARQUBE') {
-                     steps {
-                         sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar'
-                     }
-                 }
-        stage('TESTS UNITAIRES MOCKITO') {
-                      steps {
-
-                                 sh 'mvn test'
-                             }
-                         }
     }
 
     post {

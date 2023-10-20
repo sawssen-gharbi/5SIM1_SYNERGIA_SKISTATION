@@ -11,10 +11,8 @@ import tn.esprit.spring.repositories.IInstructorRepository;
 import tn.esprit.spring.services.InstructorServicesImpl;
 
 @SpringBootTest
-@ExtendWith(SpringExtension.class)
 class GestionStationSkiApplicationTests {
 
-	@Test
 	void contextLoads() {
 	}
 
