@@ -31,6 +31,11 @@ pipeline {
                 sh 'mvn install -Dmaven.test.skip=true'
             }
         }
+     stage('NEXUS'){
+     steps{
+     sh 'mvn deploy -Dmaven.test.skip=true'
+         }
+     }
     }
 
     post {
