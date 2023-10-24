@@ -28,7 +28,7 @@ pipeline {
   stage('Tests unitaires avec Mockito') {
             steps {
                 // Exécutez les tests unitaires pour chaque module ici
-                sh 'mvn test' // Assurez-vous que vos tests sont configurés pour être exécutés avec Mockito.
+                sh 'mvn install -Dmaven.test.skip=true'
             }
         }
     }

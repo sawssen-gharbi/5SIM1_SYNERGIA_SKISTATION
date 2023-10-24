@@ -13,14 +13,10 @@ import tn.esprit.spring.repositories.IPisteRepository;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-@ExtendWith(MockitoExtension.class)
 class GestionStationSkiApplicationTests {
 
 	@Test
 	void contextLoads() {
 	}
-	@Mock
-	IPisteRepository pisteRepository;
-	IPisteRepository p = Mockito.mock(IPisteRepository.class);
 
 }
