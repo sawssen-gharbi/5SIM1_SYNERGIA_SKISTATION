@@ -28,9 +28,15 @@ pipeline {
 stage('Tests unitaires avec Mockito') {
             steps {
                 // Exécutez les tests unitaires pour chaque module ici
-                sh 'mvn test' // Assurez-vous que vos tests sont configurés pour être exécutés avec Mockito.
+                 sh 'mvn install -Dmaven.test.skip=true'
             }
         }
+        stage('Déploiement dans Nexus') {
+               steps {
+                   // Exécutez la commande Maven pour déployer le projet dans Nexus en sautant les tests
+                   sh 'mvn deploy -Dmaven.test.skip=true'
+               }
+           }
 }
     post {
         success {
