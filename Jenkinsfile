@@ -20,17 +20,26 @@ pipeline {
                 sh 'mvn compile'
             }
         }
-    stage('MVN SONARQUBE') {
-                steps {
-                    sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=rania'
-                }
+
+        stage('MVN SONARQUBE') {
+            steps {
+                sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=rania'
             }
-     stage('Tests unitaires avec Mockito') {
-               steps {
-                   // Exécutez les tests unitaires pour chaque module ici
-                   sh 'mvn install -Dmaven.test.skip=true'
-               }
-           }
+        }
+
+         stage('Tests unitaires avec Mockito') {
+             steps {
+                // Exécutez les tests unitaires pour chaque module ici
+                sh 'mvn install -Dmaven.test.skip=true'
+             }
+         }
+
+         stage('Déploiement dans Nexus') {
+            steps {
+                // Exécutez la commande Maven pour déployer le projet dans Nexus en sautant les tests
+                sh 'mvn deploy -Dmaven.test.skip=true'
+            }
+         }
        }
 
     post {
