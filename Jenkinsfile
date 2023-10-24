@@ -20,7 +20,18 @@ pipeline {
                 sh 'mvn compile'
             }
         }
-    }
+    stage('MVN SONARQUBE') {
+                steps {
+                    sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=rania'
+                }
+            }
+     stage('Tests unitaires avec Mockito') {
+               steps {
+                   // Exécutez les tests unitaires pour chaque module ici
+                   sh 'mvn install -Dmaven.test.skip=true'
+               }
+           }
+       }
 
     post {
         success {
