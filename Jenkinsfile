@@ -1,4 +1,10 @@
 pipeline {
+ environment {
+         registry = "sawssen97/gestionski-devops"
+        registryCredential = 'sawssenhub_id'
+        dockerImage = ''
+    }
+
     agent any
 
     stages {
@@ -37,24 +43,36 @@ pipeline {
                 sh 'mvn deploy -Dmaven.test.skip=true'
                  }
         }
-         stage('DOCKER BUILD') {
-            steps{
-                 sh 'docker build -t gestionski-devops:1.0 .'
-                 }
-             }
+        stage('DOCKER BUILD') {
+                    steps {
+                        script {
+                            dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                        }
+                    }
+                }
 
-         stage('DOCKER DEPLOY') {
+         /*stage('DOCKER DEPLOY') {
              steps {
                  withCredentials([string(credentialsId: 'sawssenhub_id', variable: 'DOCKERHUB_PASSWORD')]) {
                      sh 'docker login -u sawssen97 -p $DOCKERHUB_PASSWORD'
                      sh 'docker push sawssen97/gestionski-devops:1.0'
                  }
              }
-         }
+         }*/
+          stage('DOCKER PUSH') {
+                     steps {
+                          script {
+                            docker.withRegistry( '', registryCredential ) {
+                                 dockerImage.push()
+                             }
+                          }
+
+                     }
+                 }
 
          stage('DOCKER COMPOSE') {
              steps {
-                     sh 'docker-compose up'
+                     sh 'docker-compose up -d'
                    }
          }
 
