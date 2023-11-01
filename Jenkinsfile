@@ -45,7 +45,7 @@ pipeline {
 
                          stage('DOCKER DEPLOY') {
                              steps {
-                                 withCredentials([string(credentialsId: 'db6e9c8d-fa28-43c2-bf29-8b45ad48ae64', variable: 'DOCKERHUB_PASSWORD')]) {
+                                 withCredentials([string(credentialsId: 'rania28', variable: 'DOCKERHUB_PASSWORD')]) {
                                      sh 'docker login -u ranianadine -p $DOCKERHUB_PASSWORD'
                                      sh 'docker push ranianadine/gestionski-devops:1.0'
                                  }
