@@ -40,6 +40,27 @@ pipeline {
                 sh 'mvn deploy -Dmaven.test.skip=true'
             }
          }
+
+         stage('DOCKER BUILD') {
+            steps{
+                 sh 'docker build -t gestionski-devops:1.0 .'
+                 }
+             }
+
+         stage('DOCKER DEPLOY') {
+             steps {
+                 withCredentials([string(credentialsId: 'DockerHubId', variable: 'DOCKERHUB_PASSWORD')]) {
+                     sh 'docker login -u hamzanechi -p $DOCKERHUB_PASSWORD'
+                     sh 'docker push hamzanechi/gestionski-devops:1.0'
+                 }
+             }
+         }
+
+         stage('DOCKER COMPOSE') {
+             steps {
+                     sh 'docker-compose up'
+                   }
+         }
        }
 
     post {
