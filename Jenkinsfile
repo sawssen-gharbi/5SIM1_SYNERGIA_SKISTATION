@@ -7,7 +7,7 @@ pipeline {
 
                 sh 'git checkout sawsen'
                 sh 'git pull'
-            }
+                  }
         }
 
         stage('MVN CLEAN AND COMPILE') {
@@ -17,25 +17,41 @@ pipeline {
 
                 // Compilation du projet avec Maven
                 sh 'mvn compile'
-            }
+               }
         }
          stage('MVN SONARQUBE') {
              steps {
                  sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar'
-             }
+                   }
          }
-  stage('TESTS UNITAIRES MOCKITO') {
-            steps {
 
+        stage('TESTS UNITAIRES MOCKITO') {
+            steps {
                 //sh 'mvn test'
                 sh 'mvn install -Dmaven.test.skip=true'
-            }
+                  }
         }
-     stage('NEXUS'){
-     steps{
-     sh 'mvn deploy -Dmaven.test.skip=true'
+
+        stage('NEXUS'){
+            steps{
+                sh 'mvn deploy -Dmaven.test.skip=true'
+                 }
+        }
+         stage('DOCKER BUILD') {
+            steps{
+                 sh 'docker build -t gestionski-devops:1.0 .'
+                 }
+             }
+
+         stage('DOCKER DEPLOY') {
+             steps {
+                 withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'DOCKERHUB_PASSWORD')]) {
+                     sh 'docker login -u sawssen97 -p $DOCKERHUB_PASSWORD'
+                     sh 'docker push sawssen97/gestionski-devops:1.0'
+                 }
+             }
          }
-     }
+
     }
 
     post {
