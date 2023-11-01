@@ -5,7 +5,7 @@ services:
     image: mysql:5.7
     restart: unless-stopped
     ports:
-      - 3307:3306
+      - 3306:3306
     volumes:
       - db:/var/lib/mysql
   gestionski-backend:
@@ -14,7 +14,14 @@ services:
     build: ./
     restart: on-failure
     ports:
-      - 6868:8089
+      - 8089:8089
+    environment:
+      - spring.datasource.url=jdbc:mysql://mysqldb:3306/stationSki?createDatabaseIfNotExist=true
+      - spring.datasource.username=root
+      - spring.datasource.password=
+      - spring.jpa.show-sql=true
+      - spring.jpa.hibernate.ddl-auto=update
+      - spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
     volumes:
       -  .m2:/root/.m2
     stdin_open: true
