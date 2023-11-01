@@ -37,6 +37,20 @@ stage('Tests unitaires avec Mockito') {
                    sh 'mvn deploy -Dmaven.test.skip=true'
                }
            }
+               stage('DOCKER BUILD') {
+                           steps{
+                                sh 'docker build -t gestionski-devops:1.0 .'
+                                }
+                            }
+
+                        stage('DOCKER DEPLOY') {
+                            steps {
+                                withCredentials([string(credentialsId: 'mejriachref', variable: 'DOCKERHUB_PASSWORD')]) {
+                                    sh 'docker login -u mejriachref -p $DOCKERHUB_PASSWORD'
+                                    sh 'docker push mejriachref/gestionski-devops:1.0'
+                                }
+                            }
+                        }
 }
     post {
         success {
@@ -50,20 +64,7 @@ stage('Tests unitaires avec Mockito') {
     }
 
 
-    stage('DOCKER BUILD') {
-                steps{
-                     sh 'docker build -t gestionski-devops:1.0 .'
-                     }
-                 }
 
-             stage('DOCKER DEPLOY') {
-                 steps {
-                     withCredentials([string(credentialsId: 'mejriachref', variable: 'DOCKERHUB_PASSWORD')]) {
-                         sh 'docker login -u mejriachref -p $DOCKERHUB_PASSWORD'
-                         sh 'docker push mejriachref/gestionski-devops:1.0'
-                     }
-                 }
-             }
 
 
 
