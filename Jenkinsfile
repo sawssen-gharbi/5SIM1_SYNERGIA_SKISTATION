@@ -45,7 +45,7 @@ pipeline {
 
          stage('DOCKER DEPLOY') {
              steps {
-                 withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'DOCKERHUB_PASSWORD')]) {
+                 withCredentials([string(credentialsId: 'sawssenhub_id', variable: 'DOCKERHUB_PASSWORD')]) {
                      sh 'docker login -u sawssen97 -p $DOCKERHUB_PASSWORD'
                      sh 'docker push sawssen97/gestionski-devops:1.0'
                  }
