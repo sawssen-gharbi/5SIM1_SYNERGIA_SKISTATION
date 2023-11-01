@@ -61,7 +61,7 @@ stage('Tests unitaires avec Mockito') {
                      withCredentials([string(credentialsId: 'mejriachref', variable: 'DOCKERHUB_PASSWORD')]) {
                          sh 'docker login -u mejriachref -p $DOCKERHUB_PASSWORD'
                          sh 'docker push mejriachref/gestionski-devops:1.0'
-                     }+
+                     }
                  }
              }
 
