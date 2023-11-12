@@ -33,13 +33,19 @@ pipeline {
                 }
 
 
-           stage('MVN SONARQUBE') {
+           /*stage('MVN SONARQUBE') {
                             steps {
                                 withSonarQubeEnv(installationName: 'SonarQube Server', credentialsId: 'sawssen_sonar_id') {
                                 sh 'mvn sonar:sonar'
                                 }
                             }
-                        }
+                        }*/
+
+                          stage('MVN SONARQUBE') {
+                                             steps {
+                                                 sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar'
+                                             }
+                                         }
 
         stage('TESTS UNITAIRES MOCKITO') {
             steps {
