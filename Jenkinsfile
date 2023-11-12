@@ -53,6 +53,7 @@ pipeline {
                 sh 'mvn install -Dmaven.test.skip=true'
                   }
         }
+        //hi
 
         /*stage('NEXUS'){
             steps{
