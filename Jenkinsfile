@@ -102,7 +102,7 @@ pipeline {
                     steps {
 
                         script {
-
+                        //hi
                             sh "mvn -B release:clean release:prepare -Darguments='-DskipTests'";
                             pom = readMavenPom file: "pom.xml";
                             filesByGlob = findFiles(glob: "target/*.${pom.packaging}");
