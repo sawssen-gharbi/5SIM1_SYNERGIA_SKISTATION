@@ -14,7 +14,7 @@ pipeline {
     stages {
         stage('GIT') {
             steps {
-//
+///
                 sh 'git checkout sawsen'
                 sh 'git pull'
                   }
