@@ -102,6 +102,9 @@ pipeline {
                     steps {
 
                         script {
+                            sh 'git config --global user.email "sawssen.gharbi@esprit.tn"'
+                            sh 'git config --global user.name "sawssen-gharbi'
+
                             sh "mvn -B release:clean release:prepare -Darguments='-DskipTests'"
                             pom = readMavenPom file: "pom.xml";
                             filesByGlob = findFiles(glob: "target/*.${pom.packaging}");
