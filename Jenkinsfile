@@ -4,7 +4,7 @@ pipeline {
     environment {
         NEXUS_VERSION = "nexus3"
         NEXUS_PROTOCOL = "http"
-        NEXUS_URL = "192.168.33.10:8081"
+        NEXUS_URL = "192.168.33.10:8081/"
         NEXUS_REPOSITORY_RELEASE = "maven-releases"
         NEXUS_REPOSITORY_SNAPSHOT = "maven-snapshots"
         NEXUS_CREDENTIAL_ID = "sawssen_nexus_id"
