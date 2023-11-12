@@ -37,11 +37,17 @@ stage('Tests unitaires avec Mockito') {
                    sh 'mvn deploy -Dmaven.test.skip=true'
                }
            }
-               stage('DOCKER BUILD') {
-                           steps{
-                                sh 'docker build -t gestionski-devops:1.0 .'
-                                }
-                            }
+                 stage('DOCKER BUILD') {
+                           steps {
+                               // Arrêter les conteneurs Docker précédents s'ils sont en cours d'exécution
+                               sh 'docker stop gestionski-devops || true'
+                               sh 'docker stop nexus-container || true'
+                               sh 'docker stop sonarqube-container || true'
+
+                               // Construire le nouveau conteneur Docker
+                               sh 'docker build -t gestionski-devops:1.0 .'
+                           }
+                       }
 
                         stage('DOCKER DEPLOY') {
                             steps {
