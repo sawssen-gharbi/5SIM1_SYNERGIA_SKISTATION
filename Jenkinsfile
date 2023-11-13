@@ -22,7 +22,7 @@ pipeline {
         }
          stage('MVN SONARQUBE') {
              steps {
-                 sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=Rania28769679'
+                 sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonarqube'
              }
          }
   stage('Tests unitaires avec Mockito') {
