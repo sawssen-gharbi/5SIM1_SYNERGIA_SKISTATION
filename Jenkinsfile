@@ -5,7 +5,7 @@ pipeline {
         NEXUS_VERSION = "nexus3"
         NEXUS_PROTOCOL = "http"
         NEXUS_URL = "192.168.33.10:8081"
-        NEXUS_REPOSITORY_RELEASE = "maven-releases/"
+        NEXUS_REPOSITORY = "maven-releases/"
         NEXUS_CREDENTIAL_ID = "sawssen_nexus_id"
     }
 
@@ -61,7 +61,7 @@ pipeline {
         }*/
 
 
-                 stage("Publish to Nexus Repository Manager") {
+                 stage("NEXUS") {
                             steps {
                                 script {
                                     pom = readMavenPom file: "pom.xml";
