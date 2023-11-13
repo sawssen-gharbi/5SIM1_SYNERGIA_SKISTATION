@@ -74,21 +74,13 @@
 
 	 <!-- Deploy to Nexus -->
 	<distributionManagement>
-	<snapshotRepository>
-	<id>nexus-snapshots</id>
-	<url>http://192.168.33.10:8081/repository/maven-snapshots/</url>
-	</snapshotRepository>
 	<repository>
 	<id>nexus-releases</id>
 	<url>http://192.168.33.10:8081/repository/maven-releases/</url>
 	</repository>
 	</distributionManagement>
 
-	<scm>
-		<connection>scm:git:https://sawssen-gharbi@github.com/5SIM1_SYNERGIA_SKISTATION.git</connection>
-		<developerConnection>scm:git:https://github.com/sawssen-gharbi/5SIM1_SYNERGIA_SKISTATION.git</developerConnection>
-		<url>https://github.com/sawssen-gharbi/5SIM1_SYNERGIA_SKISTATION</url>
-	</scm>
+
 
 
 	<build>
