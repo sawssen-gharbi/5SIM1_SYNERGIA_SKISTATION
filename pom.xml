@@ -85,7 +85,7 @@
 	</distributionManagement>
 
 	<scm>
-		<connection>scm:git:https://github.com/sawssen-gharbi/5SIM1_SYNERGIA_SKISTATION.git</connection>
+		<connection>scm:git:https://sawssen-gharbi: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%3A/5SIM1_SYNERGIA_SKISTATION.git</connection>
 		<developerConnection>scm:git:https://github.com/sawssen-gharbi/5SIM1_SYNERGIA_SKISTATION.git</developerConnection>
 		<url>https://github.com/sawssen-gharbi/5SIM1_SYNERGIA_SKISTATION</url>
 	</scm>
