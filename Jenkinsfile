@@ -12,13 +12,13 @@ pipeline {
 
 
     stages {
-        stage('GIT') {
-            steps {
+           stage('GIT') {
+               steps {
 
-                sh 'git checkout sawsen'
-                sh 'git pull'
-                  }
-        }
+                   sh 'git checkout sawsen'
+                   sh 'git pull'
+                     }
+           }
 
        stage('MVN CLEAN') {
                   steps {
