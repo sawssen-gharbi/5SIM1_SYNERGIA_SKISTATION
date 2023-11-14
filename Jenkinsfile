@@ -49,24 +49,25 @@ stage('Tests unitaires avec Mockito') {
                            }
                        }
 
-                    stage('DOCKER DEPLOY') {
-                        steps {
-                            script {
-                                // Assuming DOCKERHUB_PASSWORD is your DockerHub password credential
-                                withCredentials([usernamePassword(credentialsId: 'mejriachref', usernameVariable: 'mejriachref', passwordVariable: 'Espritesprit/22')]) {
+                  stage('DOCKER DEPLOY') {
+                      steps {
+                          script {
+                              // Assuming 'mejriachref' is the ID of your DockerHub credentials in Jenkins
+                              withCredentials([usernamePassword(credentialsId: 'mejriachref', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
 
-                                    // Ensure the image is correctly tagged with the DockerHub repository
-                                    sh "docker tag gestionski-devops:1.0 mejriachref/gestionski-devops:1.0"
+                                  // Ensure the image is correctly tagged with the DockerHub repository
+                                  sh "docker tag gestionski-devops:1.0 mejriachref/gestionski-devops:1.0"
 
-                                    // Login to DockerHub
-                                    sh "echo '$DOCKERHUB_PASSWORD' | docker login -u '$DOCKERHUB_USERNAME' --password-stdin"
+                                  // Login to DockerHub
+                                  sh "docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD"
 
-                                    // Push the Docker image to DockerHub
-                                    sh "docker push mejriachref/gestionski-devops:1.0"
-                                }
-                            }
-                        }
-                    }
+                                  // Push the Docker image to DockerHub
+                                  sh "docker push mejriachref/gestionski-devops:1.0"
+                              }
+                          }
+                      }
+                  }
+
 
 
 
