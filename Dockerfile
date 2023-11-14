@@ -1,8 +1,12 @@
-FROM openjdk:8-jdk-alpine
+# syntax=docker/dockerfile:experimental
+
+# Stage 1: Build Maven dependencies
+FROM maven:3.8.3-openjdk-11 as builder
+
 WORKDIR /app
 COPY pom.xml .
 
-RUN mvn dependency:go-offline
+RUN --mount=type=cache,target=/root/.m2 mvn dependency:go-offline
 COPY src/ src/
 RUN --mount=type=cache,target=/root/.m2 mvn package
 
@@ -11,7 +15,7 @@ FROM openjdk:11-jre-slim
 EXPOSE 8089
 
 # Install curl in the container
-RUN apk update && apk add --no-cache curl
+RUN apt-get update && apt-get install -y curl
 
 # Define Nexus URL and Artifact Path (replace with your actual values)
 ARG NEXUS_URL="http://localhost:8081/repository/maven-releases/"
@@ -25,4 +29,3 @@ COPY --from=builder /app/target/gestion-station-ski-1.0.jar /gestion-station-ski
 # Set Java options and define entry point
 ENV JAVA_OPTS="-Dlogging.level.org.springframework.security=DEBUG -Djdk.tls.client.protocols=TLSv1.2"
 ENTRYPOINT ["java", "-jar", "/gestion-station-ski-1.0.jar"]
-
