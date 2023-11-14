@@ -120,11 +120,10 @@ pipeline {
             stage('DOCKER BUILD') {
                       steps {
                           script {
-                              // Check contents of the 'target' directory before building Docker image
-                              sh 'ls -l target'
+                              //sh 'ls -l target'
 
                               // Build Docker image
-                              //dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                              dockerImage = docker.build registry + ":$BUILD_NUMBER"
                           }
                       }
                   }
