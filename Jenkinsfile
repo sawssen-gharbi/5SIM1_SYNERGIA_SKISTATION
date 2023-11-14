@@ -118,9 +118,9 @@ pipeline {
                       steps {
                           script {
 
-                               sh 'docker build -t projet/gestion-station-ski .'
+                                     sh 'docker build -t gestionski-devops:1.0 .'
                               // Build Docker image
-                              dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                             // dockerImage = docker.build registry + ":$BUILD_NUMBER"
                           }
                       }
                   }
