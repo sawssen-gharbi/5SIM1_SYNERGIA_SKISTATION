@@ -49,14 +49,21 @@ stage('Tests unitaires avec Mockito') {
                            }
                        }
 
-                        stage('DOCKER DEPLOY') {
-                            steps {
-                                withCredentials([string(credentialsId: 'mejriachref', variable: 'DOCKERHUB_PASSWORD')]) {
-                                    sh 'docker login -u mejriachref -p $DOCKERHUB_PASSWORD'
-                                    sh 'docker push mejriachref/gestionski-devops:1.0'
-                                }
-                            }
-                        }
+                       stage('DOCKER DEPLOY') {
+                           steps {
+                               withCredentials([string(credentialsId: 'mejriachref', variable: 'DOCKERHUB_PASSWORD')]) {
+                                   sh 'docker login -u mejriachref -p $DOCKERHUB_PASSWORD'
+                                   script {
+                                       def pushOutput = sh(script: 'docker push mejriachref/gestionski-devops:1.0', returnStatus: true).trim()
+                                       echo "Docker Push Output: ${pushOutput}"
+                                       if (pushOutput != '0') {
+                                           error "Docker push failed"
+                                       }
+                                   }
+                               }
+                           }
+                       }
+
                          stage('Configure and Start Prometheus and Grafana') {
                                     steps {
                                         script {
