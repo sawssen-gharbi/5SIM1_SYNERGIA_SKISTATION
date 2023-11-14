@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        registry = "sawssen97/gestionski-devops:1.0 ."
+        registry = "sawssen97/gestionski-devops"
         registryCredential = 'sawssenhub_id'
         dockerImage = ''
         NEXUS_VERSION = "nexus3"
@@ -113,7 +113,7 @@ pipeline {
 
                                 //sh 'docker build -t gestionski-devops:1.0 .'
                               // Build Docker image
-                             dockerImage = docker.build registry
+                             dockerImage = docker.build registry + ":$BUILD_NUMBER"
                           }
                       }
                   }
