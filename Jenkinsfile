@@ -31,12 +31,16 @@ stage('Tests unitaires avec Mockito') {
                  sh 'mvn install -Dmaven.test.skip=true'
             }
         }
-        stage('Déploiement dans Nexus') {
-               steps {
-                   // Exécutez la commande Maven pour déployer le projet dans Nexus en sautant les tests
-                   sh 'mvn deploy -Dmaven.test.skip=true'
+       stage('Déploiement dans Nexus') {
+           steps {
+               // Exécutez la commande Maven pour déployer le projet dans Nexus en sautant les tests
+               script {
+                   // Include the deploy goal and specify the Maven repository URL
+                   sh 'mvn deploy -Dmaven.test.skip=true deploy:deploy -DaltDeploymentRepository=deploymentRepo::default::http://localhost:8081/repository/maven-releases/'
                }
            }
+       }
+
                  stage('DOCKER BUILD') {
                            steps {
                                // Arrêter les conteneurs Docker précédents s'ils sont en cours d'exécution
