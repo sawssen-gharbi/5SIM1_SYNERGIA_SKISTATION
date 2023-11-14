@@ -1,7 +1,9 @@
-# Stage 1: Build the application
-FROM maven:3.8.3-openjdk-11 AS builder
+# syntax=docker/dockerfile:experimental
+FROM maven:3.8.3-openjdk-11
+
 WORKDIR /app
 COPY pom.xml .
+
 RUN --mount=type=cache,target=/root/.m2 mvn dependency:go-offline
 COPY src/ src/
 RUN --mount=type=cache,target=/root/.m2 mvn package
