@@ -14,11 +14,11 @@ EXPOSE 8089
 RUN apt-get update && apt-get install -y curl
 
 # Define Nexus URL and Artifact Path (replace with your actual values)
-ARG NEXUS_URL="http://192.168.33.10:8081/repository/maven-releases/"
-ARG ARTIFACT_PATH="tn/esprit/gestion-station-ski/1.0/gestion-station-ski-1.0.jar"
+ARG NEXUS_URL="http://localhost:8081/repository/maven-releases/"
+ARG ARTIFACT_PATH="tn/esprit/spring/gestion-station-ski/1.0/gestion-station-ski-1.0.jar"
 
-# Download the .jar file from Nexus and copy it to the container
 RUN curl -o /gestion-station-ski-1.0.jar ${NEXUS_URL}${ARTIFACT_PATH}
+
 
 # Copy the built JAR file from the builder stage to the container
 COPY --from=builder /app/target/gestion-station-ski-1.0.jar /gestion-station-ski-1.0.jar
