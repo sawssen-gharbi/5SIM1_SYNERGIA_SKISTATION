@@ -34,7 +34,7 @@ pipeline {
 
            stage('MVN SONARQUBE') {
                             steps {
-                                withSonarQubeEnv(installationName: 'SonarQube Scanner', credentialsId: 'sawssen_sonar_id') {
+                                withSonarQubeEnv(installationName: 'SONAR_SCANNER_HOME', credentialsId: 'sawssen_sonar_id') {
                                 sh 'mvn sonar:sonar'
                                 }
                             }
