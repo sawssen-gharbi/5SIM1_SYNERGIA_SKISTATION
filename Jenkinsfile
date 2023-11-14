@@ -68,7 +68,11 @@ stage('Tests unitaires avec Mockito') {
                       }
                   }
 
-
+stage('DOCKER COMPOSE') {
+                                      steps {
+                                              sh 'docker-compose up -d'
+                                            }
+                                  }
 
 
 
