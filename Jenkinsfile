@@ -22,17 +22,24 @@ pipeline {
                      }
            }*/
 
-       stage('MVN CLEAN') {
+       stage("Maven CLEAN"){
                   steps {
                       sh "mvn clean"
+
+                  }
+              }
+               stage('Maven PACKAGE') {
+      		 steps {
+      			    sh "mvn package"
+      			  }
+      		  }
+               stage("Maven COMPILE"){
+                  steps {
+                      sh"mvn compile"
+
                   }
               }
 
-        stage('MVN COMPILE') {
-               steps {
-                 sh "mvn compile"
-                    }
-                }
 
 
            stage('MVN SONARQUBE') {
