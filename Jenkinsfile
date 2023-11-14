@@ -105,14 +105,7 @@ pipeline {
 
 
 
-       /*  stage('DOCKER DEPLOY') {
-             steps {
-                 withCredentials([string(credentialsId: 'sawssenhub_id', variable: 'DOCKERHUB_PASSWORD')]) {
-                     sh 'docker login -u sawssen97 -p $DOCKERHUB_PASSWORD'
-                     sh 'docker push sawssen97/gestionski-devops:1.0'
-                 }
-             }
-         }*/
+
 
             stage('DOCKER BUILD') {
                       steps {
@@ -125,7 +118,7 @@ pipeline {
                       }
                   }
 
-                 stage('DOCKER DEPLOY') {
+                 /*stage('DOCKER DEPLOY') {
                      steps {
                          script {
                              docker.withRegistry( '', registryCredential ) {
@@ -134,8 +127,16 @@ pipeline {
                              }
                          }
                      }
-                 }
+                 }*/
 
+   stage('DOCKER DEPLOY') {
+             steps {
+                 withCredentials([string(credentialsId: 'sawssenhub_id', variable: 'DOCKERHUB_PASSWORD')]) {
+                     sh 'docker login -u sawssen97 -p $DOCKERHUB_PASSWORD'
+                     sh 'docker push sawssen97/gestionski-devops:1.0'
+                 }
+             }
+         }
 
          stage('DOCKER COMPOSE') {
              steps {
