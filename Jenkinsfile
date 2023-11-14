@@ -52,7 +52,7 @@ stage('Tests unitaires avec Mockito') {
                       stage('DOCKER DEPLOY') {
                           steps {
                               withCredentials([usernamePassword(credentialsId: 'mejriachref', usernameVariable: 'mejriachref', passwordVariable: 'Espritesprit/22')]) {
-                                  sh 'echo $DOCKERHUB_PASSWORD | docker login -u $DOCKERHUB_USERNAME --password-stdin'
+                                 sh "echo \$DOCKERHUB_PASSWORD | docker login -u \$DOCKERHUB_USERNAME --password-stdin"
                                             sh 'docker push mejriachref/gestionski-devops:1.0'
                               }
                           }
