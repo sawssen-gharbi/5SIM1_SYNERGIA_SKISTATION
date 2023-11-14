@@ -25,7 +25,7 @@ pipeline {
                echo 'Before Email Notification'
                mail bcc: '', body: '''hello welcome to Jenkins emails alert
                thanks
-               Rania''', cc: '', from: '', replyTo: '', subject: '', to: 'rania99belhajyoussef@gmail.comh'
+               Rania''', cc: '', from: '', replyTo: '', subject: '', to: 'rania99belhajyoussef@gmail.com'
                echo 'After Email Notification'
            }
        }
