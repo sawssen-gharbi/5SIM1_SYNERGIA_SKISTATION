@@ -72,42 +72,7 @@ stage('Tests unitaires avec Mockito') {
 
 
 
-                         stage('Configure and Start Prometheus and Grafana') {
-                                    steps {
-                                        script {
-                                            // Create a docker-compose.yml for Prometheus and Grafana
-                                            writeFile file: 'docker-compose-monitoring.yml', text: '''
-                                                version: "3.8"
-                                                services:
-                                                  prometheus:
-                                                    image: prom/prometheus
-                                                    ports:
-                                                      - 9090:9090
-                                                    volumes:
-                                                      - ./prometheus:/etc/prometheus
-                                                    command:
-                                                      - --config.file=/etc/prometheus/prometheus.yml
-                                                    networks:
-                                                      - monitoring
 
-                                                  grafana:
-                                                    image: grafana/grafana
-                                                    ports:
-                                                      - 3000:3000
-                                                    depends_on:
-                                                      - prometheus
-                                                    networks:
-                                                      - monitoring
-
-                                                networks:
-                                                  monitoring:
-                                            '''
-
-                                            // Start Prometheus and Grafana
-                                            sh 'docker-compose -f docker-compose-monitoring.yml up -d'
-                                        }
-                                    }
-                                }
 }
     post {
         success {
