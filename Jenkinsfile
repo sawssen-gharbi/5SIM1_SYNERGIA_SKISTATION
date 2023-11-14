@@ -66,14 +66,21 @@ pipeline {
                                           }
                                       }
 
+
                          stage('DOCKER DEPLOY') {
-                             steps {
-                                 withCredentials([string(credentialsId: 'rania28', variable: 'DOCKERHUB_PASSWORD')]) {
-                                     sh 'docker login -u ranianadine -p $DOCKERHUB_PASSWORD'
-                                     sh 'docker push ranianadine/gestionski-devops:1.0'
-                                 }
-                             }
-                         }
+                                               steps {
+                                                   script {
+                                                       withCredentials([usernamePassword(credentialsId: 'rania28', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+
+                                                           sh "docker tag gestionski-devops:1.0 ranianadine/gestionski-devops:1.0"
+
+                                                           sh "docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD"
+
+                                                           sh "docker push ranianadine/gestionski-devops:1.0"
+                                                       }
+                                                   }
+                                               }
+                                           }
                          stage('DOCKER COMPOSE') {
                                       steps {
                                               sh 'docker-compose up'
