@@ -100,28 +100,6 @@ pipeline {
                         }
 
 
-stage('Check Target Directory') {
-            steps {
-                script {
-                    // Change to the directory containing the Maven project
-                    dir('path/to/project') {
-                        // Check if the "target" directory exists
-                        if (fileExists('target')) {
-                            echo 'Maven build successful. "target" directory exists.'
-                        } else {
-                            error 'Maven build failed. "target" directory does not exist.'
-                        }
-                    }
-                }
-            }
-        }
-
-        stage('DOCKER BUILD') {
-            steps{
-
-                 sh 'docker build -t gestionski-devops:1.0 . --no-cache'
-                 }
-             }
 
        /*  stage('DOCKER DEPLOY') {
              steps {
@@ -133,7 +111,7 @@ stage('Check Target Directory') {
          }*/
 
 
-            /*stage('DOCKER BUILD') {
+            stage('DOCKER BUILD') {
                       steps {
                           script {
 
@@ -143,7 +121,7 @@ stage('Check Target Directory') {
                           }
                       }
                   }
-*/
+
                  stage('DOCKER DEPLOY') {
                      steps {
                          script {
