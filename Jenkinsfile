@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        registry = "sawssen97/gestionski-devops:1.0.0"
+        registry = "sawssen97/gestionski-devops"
         registryCredential = 'sawssenhub_id'
         dockerImage = ''
         NEXUS_VERSION = "nexus3"
