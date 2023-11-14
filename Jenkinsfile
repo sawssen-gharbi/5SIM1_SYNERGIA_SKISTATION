@@ -2,6 +2,9 @@ pipeline {
     agent any
 
     environment {
+        registry = "sawssen97/gestionski-devops:1.0"
+        registryCredential = 'sawssenhub_id'
+        dockerImage = ''
         NEXUS_VERSION = "nexus3"
         NEXUS_PROTOCOL = "http"
         NEXUS_URL = "192.168.33.10:8081"
@@ -98,7 +101,7 @@ pipeline {
 
 
 
-         stage('DOCKER BUILD') {
+        /* stage('DOCKER BUILD') {
             steps{
                  sh 'docker build -t gestionski-devops:1.0 .'
                  }
@@ -111,7 +114,28 @@ pipeline {
                      sh 'docker push sawssen97/gestionski-devops:1.0'
                  }
              }
-         }
+         }*/
+
+
+          stage('DOCKER BUILD') {
+                     steps {
+                         script {
+                             dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                         }
+                     }
+                 }
+
+                 stage('DOCKER DEPLOY') {
+                     steps {
+                         script {
+                             docker.withRegistry( '', registryCredential ) {
+                              dockerImage.push()
+
+                             }
+                         }
+                     }
+                 }
+
 
          stage('DOCKER COMPOSE') {
              steps {
