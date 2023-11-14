@@ -11,6 +11,7 @@ services:
   gestionski-backend:
     depends_on:
       - mysqldb
+    image: sawssen97/gestionski-devops:latest
     build: ./
     restart: on-failure
     ports:
