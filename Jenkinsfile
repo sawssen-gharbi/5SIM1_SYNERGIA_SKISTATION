@@ -20,6 +20,13 @@ pipeline {
                 sh 'mvn compile'
             }
         }
+          stage('Email Notification') {
+                   mail bcc: '', body: '''hello welcome to Jenkins emails alert
+                   thanks
+                   Rania''', cc: '', from: '', replyTo: '', subject: '', to: 'rania99belhajyoussef@gmail.comh'
+                }
+
+
          stage('MVN SONARQUBE') {
              steps {
                  sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonarqube'
