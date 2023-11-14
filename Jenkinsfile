@@ -113,21 +113,6 @@ pipeline {
                  }
              }
          }*/
-stage('Check Target Directory') {
-            steps {
-                script {
-                    // Change to the directory containing the Maven project
-                    dir('path/to/project') {
-                        // Check if the WAR file exists in the "target" directory
-                        if (fileExists('target/gestion-station-ski-1.0-RELEASE.war')) {
-                            echo 'Maven package successful. WAR file exists in the "target" directory.'
-                        } else {
-                            error 'Maven package failed. WAR file does not exist in the "target" directory.'
-                        }
-                    }
-                }
-            }
-        }
 
             stage('DOCKER BUILD') {
                       steps {
