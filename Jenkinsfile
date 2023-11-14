@@ -124,7 +124,7 @@ pipeline {
                               sh 'ls -l target'
 
                               // Build Docker image
-                              dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                              //dockerImage = docker.build registry + ":$BUILD_NUMBER"
                           }
                       }
                   }
