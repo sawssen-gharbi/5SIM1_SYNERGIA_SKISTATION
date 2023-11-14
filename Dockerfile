@@ -2,7 +2,7 @@ FROM openjdk:8-jdk-alpine
 WORKDIR /app
 COPY pom.xml .
 
-RUN --mount=type=cache,target=/root/.m2 mvn dependency:go-offline
+RUN mvn dependency:go-offline
 COPY src/ src/
 RUN --mount=type=cache,target=/root/.m2 mvn package
 
