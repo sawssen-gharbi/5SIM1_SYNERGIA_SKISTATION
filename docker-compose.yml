@@ -4,6 +4,9 @@ services:
   mysqldb:
     image: mysql:latest
     restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=stationSki
     ports:
       - 3306:3306
     volumes:
