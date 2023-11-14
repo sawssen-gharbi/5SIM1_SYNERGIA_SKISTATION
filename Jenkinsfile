@@ -120,7 +120,7 @@ pipeline {
             stage('DOCKER BUILD') {
                       steps {
                           script {
-                              sh 'docker builder prune -a'
+
 
                               // Build Docker image
                               dockerImage = docker.build registry + ":$BUILD_NUMBER"
