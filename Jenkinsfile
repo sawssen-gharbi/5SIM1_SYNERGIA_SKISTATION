@@ -101,7 +101,7 @@ pipeline {
 
 
 
-        /* stage('DOCKER BUILD') {
+        stage('DOCKER BUILD') {
             steps{
                  sh 'docker build -t gestionski-devops:1.0 .'
                  }
@@ -114,10 +114,10 @@ pipeline {
                      sh 'docker push sawssen97/gestionski-devops:1.0'
                  }
              }
-         }*/
+         }
 
 
-          stage('DOCKER BUILD') {
+         /* stage('DOCKER BUILD') {
                      steps {
                          script {
                              dockerImage = docker.build registry + ":$BUILD_NUMBER"
@@ -134,7 +134,7 @@ pipeline {
                              }
                          }
                      }
-                 }
+                 }*/
 
 
          stage('DOCKER COMPOSE') {
