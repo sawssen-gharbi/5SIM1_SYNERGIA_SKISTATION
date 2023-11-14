@@ -2,116 +2,89 @@ pipeline {
     agent any
 
     stages {
-        stage('Récupération du code de la branche') {
+        stage('Git') {
             steps {
-                // Vous pouvez spécifier ici comment récupérer le code de la branche
-                // Par exemple, en utilisant Git, remplacez '<achref>' par le nom réel de la branche :
-                sh 'git checkout achref'
-                sh 'git pull'
+                echo 'Pulling from your git repository'
+                git branch: 'achref', url: 'https://Token@github.com/your-username/your-repository.git'
             }
         }
 
-        stage('Nettoyage et compilation avec Maven') {
+        stage('Build Maven') {
             steps {
-                // Nettoyage du projet avec Maven
-                sh 'mvn clean'
-
-                // Compilation du projet avec Maven
-                sh 'mvn compile'
+                sh 'mvn -Dmaven.test.failure.ignore=true clean package'
             }
         }
-         stage('MVN SONARQUBE') {
-             steps {
-                 sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=rania'
-             }
-         }
-stage('Tests unitaires avec Mockito') {
+
+        stage('Maven Deploy') {
             steps {
-                // Exécutez les tests unitaires pour chaque module ici
-                 sh 'mvn install -Dmaven.test.skip=true'
+                script {
+                    // Modify this command based on your Maven deployment requirements
+                    sh 'mvn deploy -Dmaven.test.skip=true'
+                }
             }
         }
-       stage('Déploiement dans Nexus') {
-           steps {
-               // Exécutez la commande Maven pour déployer le projet dans Nexus en sautant les tests
-               script {
-                   // Include the deploy goal and specify the Maven repository URL
-                   sh 'mvn deploy -Dmaven.test.skip=true deploy:deploy -DaltDeploymentRepository=deploymentRepo::default::http://localhost:8081/repository/maven-releases/'
-               }
-           }
-       }
 
-                 stage('DOCKER BUILD') {
-                           steps {
-                               // Arrêter les conteneurs Docker précédents s'ils sont en cours d'exécution
-                               sh 'docker stop gestionski-devops || true'
-                               sh 'docker stop nexus-container || true'
-                               sh 'docker stop sonarqube-container || true'
-
-                               // Construire le nouveau conteneur Docker
-                               sh 'docker build -t gestionski-devops:1.0 .'
-                           }
-                       }
-
-                        stage('DOCKER DEPLOY') {
-                            steps {
-                                withCredentials([string(credentialsId: 'mejriachref', variable: 'DOCKERHUB_PASSWORD')]) {
-                                    sh 'docker login -u mejriachref -p $DOCKERHUB_PASSWORD'
-                                    sh 'docker push mejriachref/gestionski-devops:1.0'
-                                }
-                            }
-                        }
-                         stage('Configure and Start Prometheus and Grafana') {
-                                    steps {
-                                        script {
-                                            // Create a docker-compose.yml for Prometheus and Grafana
-                                            writeFile file: 'docker-compose-monitoring.yml', text: '''
-                                                version: "3.8"
-                                                services:
-                                                  prometheus:
-                                                    image: prom/prometheus
-                                                    ports:
-                                                      - 9090:9090
-                                                    volumes:
-                                                      - ./prometheus:/etc/prometheus
-                                                    command:
-                                                      - --config.file=/etc/prometheus/prometheus.yml
-                                                    networks:
-                                                      - monitoring
-
-                                                  grafana:
-                                                    image: grafana/grafana
-                                                    ports:
-                                                      - 3000:3000
-                                                    depends_on:
-                                                      - prometheus
-                                                    networks:
-                                                      - monitoring
-
-                                                networks:
-                                                  monitoring:
-                                            '''
-
-                                            // Start Prometheus and Grafana
-                                            sh 'docker-compose -f docker-compose-monitoring.yml up -d'
-                                        }
-                                    }
-                                }
-}
-    post {
-        success {
-            // Actions à effectuer en cas de succès
-            sh 'echo "Success!"'
+        stage("Build Docker Image") {
+            steps {
+                script {
+                    sh "docker build -t gestionski-devops:1.0 ."
+                }
+            }
         }
-        failure {
-            // Actions à effectuer en cas d'échec
-            sh 'echo "Failure!"'
+
+        stage('Docker Hub') {
+            steps {
+                script {
+                    withCredentials([string(credentialsId: 'mejriachref', variable: 'DOCKERHUB_PASSWORD')]) {
+                        sh "docker login -u mejriachref -p $DOCKERHUB_PASSWORD"
+                        sh "docker push mejriachref/gestionski-devops:1.0"
+                    }
+                }
+            }
+        }
+
+        stage('Run Sonar') {
+            steps {
+                script {
+                    withCredentials([string(credentialsId: 'Token', variable: 'SONAR_TOKEN')]) {
+                        sh 'mvn sonar:sonar -Dsonar.host.url=http://localhost:9000/ -Dsonar.login=$SONAR_TOKEN'
+                    }
+                }
+            }
+        }
+
+        stage('Unit Test') {
+            steps {
+                sh 'mvn -Dmaven.test.failure.ignore=true test'
+            }
+        }
+
+        stage('JUNIT TEST with JaCoCo') {
+            steps {
+                sh 'mvn test jacoco:report'
+                echo 'Test stage done'
+            }
+        }
+
+        stage('Collect JaCoCo Coverage') {
+            steps {
+                jacoco(execPattern: '**/target/jacoco.exec')
+            }
+        }
+
+        stage('Docker Compose') {
+            steps {
+                sh "docker-compose up -d"
+            }
         }
     }
 
-
-
-
-
-
+    post {
+        success {
+            sh 'echo "Success!"'
+        }
+        failure {
+            sh 'echo "Failure!"'
+        }
+    }
 }
