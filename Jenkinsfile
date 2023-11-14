@@ -44,8 +44,8 @@ pipeline {
          stage('DOCKER BUILD') {
             steps{
                  sh 'docker build -t gestionski-devops:1.0 .'
-                 }
-             }
+            }
+         }
 
          stage('DOCKER DEPLOY') {
              steps {
