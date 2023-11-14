@@ -119,12 +119,7 @@ pipeline {
 
             stage('DOCKER BUILD') {
                       steps {
-                          script {
-
-
-                              // Build Docker image
-                              dockerImage = docker.build registry + ":$BUILD_NUMBER"
-                          }
+                          sh 'docker build -t sawssen97/gestionski-devops:40 . --verbose'
                       }
                   }
 
