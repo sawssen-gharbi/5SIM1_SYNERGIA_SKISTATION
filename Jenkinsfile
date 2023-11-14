@@ -32,18 +32,18 @@ pipeline {
                 }
 
 
-           /*stage('MVN SONARQUBE') {
+           stage('MVN SONARQUBE') {
                             steps {
-                                withSonarQubeEnv(installationName: 'SONAR_SCANNER_HOME', credentialsId: 'sawssen_sonar_id') {
+                                withSonarQubeEnv(installationName: 'SonarQube Scanner') {
                                 sh 'mvn sonar:sonar'
                                 }
                             }
-                        }*/
-                         stage('MVN SONARQUBE') {
+                        }
+                         /* stage('MVN SONARQUBE') {
                                              steps {
                                                  sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar'
                                              }
-                                         }
+                                         }*/
 
         stage('TESTS UNITAIRES MOCKITO') {
             steps {
