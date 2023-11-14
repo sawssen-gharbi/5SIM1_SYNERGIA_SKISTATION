@@ -1,7 +1,9 @@
 pipeline {
     agent any
 
+
     environment {
+        PATH = "$PATH:/usr/libexec/docker/cli-plugins/docker-compose"
         registry = "sawssen97/gestionski-devops"
         registryCredential = 'sawssenhub_id'
         dockerImage = ''
