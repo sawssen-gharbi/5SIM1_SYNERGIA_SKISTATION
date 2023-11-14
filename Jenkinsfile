@@ -2,89 +2,112 @@ pipeline {
     agent any
 
     stages {
-        stage('Git') {
+        stage('Récupération du code de la branche') {
             steps {
-                echo 'Pulling from your git repository'
+                // Vous pouvez spécifier ici comment récupérer le code de la branche
+                // Par exemple, en utilisant Git, remplacez '<achref>' par le nom réel de la branche :
                 sh 'git checkout achref'
                 sh 'git pull'
             }
         }
 
-        stage('Build Maven') {
+        stage('Nettoyage et compilation avec Maven') {
             steps {
-                sh 'mvn -Dmaven.test.failure.ignore=true clean package'
+                // Nettoyage du projet avec Maven
+                sh 'mvn clean'
+
+                // Compilation du projet avec Maven
+                sh 'mvn compile'
             }
         }
-
-        stage('Maven Deploy') {
+         stage('MVN SONARQUBE') {
+             steps {
+                 sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=rania'
+             }
+         }
+stage('Tests unitaires avec Mockito') {
             steps {
-                script {
-                    // Modify this command based on your Maven deployment requirements
-                    sh 'mvn compile'
-                }
+                // Exécutez les tests unitaires pour chaque module ici
+                 sh 'mvn install -Dmaven.test.skip=true'
             }
         }
+        stage('Déploiement dans Nexus') {
+               steps {
+                   // Exécutez la commande Maven pour déployer le projet dans Nexus en sautant les tests
+                   sh 'mvn deploy -Dmaven.test.skip=true'
+               }
+           }
+                 stage('DOCKER BUILD') {
+                           steps {
+                               // Arrêter les conteneurs Docker précédents s'ils sont en cours d'exécution
+                               sh 'docker stop gestionski-devops || true'
+                               sh 'docker stop nexus-container || true'
+                               sh 'docker stop sonarqube-container || true'
 
-        stage("Build Docker Image") {
-            steps {
-                script {
-                    sh "docker build -t gestionski-devops:1.0 ."
-                }
-            }
-        }
+                               // Construire le nouveau conteneur Docker
+                               sh 'docker build -t gestionski-devops:1.0 .'
+                           }
+                       }
 
-        stage('Docker Hub') {
-            steps {
-                script {
-                    withCredentials([string(credentialsId: 'mejriachref', variable: 'DOCKERHUB_PASSWORD')]) {
-                        sh "docker login -u mejriachref -p $DOCKERHUB_PASSWORD"
-                        sh "docker push mejriachref/gestionski-devops:1.0"
-                    }
-                }
-            }
-        }
+                        stage('DOCKER DEPLOY') {
+                            steps {
+                                withCredentials([string(credentialsId: 'mejriachref', variable: 'DOCKERHUB_PASSWORD')]) {
+                                    sh 'docker login -u mejriachref -p $DOCKERHUB_PASSWORD'
+                                    sh 'docker push mejriachref/gestionski-devops:1.0'
+                                }
+                            }
+                        }
+                         stage('Configure and Start Prometheus and Grafana') {
+                                    steps {
+                                        script {
+                                            // Create a docker-compose.yml for Prometheus and Grafana
+                                            writeFile file: 'docker-compose-monitoring.yml', text: '''
+                                                version: "3.8"
+                                                services:
+                                                  prometheus:
+                                                    image: prom/prometheus
+                                                    ports:
+                                                      - 9090:9090
+                                                    volumes:
+                                                      - ./prometheus:/etc/prometheus
+                                                    command:
+                                                      - --config.file=/etc/prometheus/prometheus.yml
+                                                    networks:
+                                                      - monitoring
 
-        stage('Run Sonar') {
-            steps {
+                                                  grafana:
+                                                    image: grafana/grafana
+                                                    ports:
+                                                      - 3000:3000
+                                                    depends_on:
+                                                      - prometheus
+                                                    networks:
+                                                      - monitoring
 
-                        sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=rania'
-                    }
+                                                networks:
+                                                  monitoring:
+                                            '''
 
-
-        }
-
-        stage('Unit Test') {
-            steps {
-                sh 'mvn -Dmaven.test.failure.ignore=true test'
-            }
-        }
-
-      stage('Tests unitaires avec Mockito') {
-                  steps {
-                      // Exécutez les tests unitaires pour chaque module ici
-                       sh 'mvn install -Dmaven.test.skip=true'
-                  }
-              }
-
-
-stage('Docker Compose') {
-    steps {
-        script {
-            sh "docker-compose up -d"
-            // Wait for services to start (you might need to adjust the command)
-            sh 'docker-compose ps --filter "status=running" --services | xargs docker-compose logs -f'
-        }
-    }
+                                            // Start Prometheus and Grafana
+                                            sh 'docker-compose -f docker-compose-monitoring.yml up -d'
+                                        }
+                                    }
+                                }
 }
-
-    }
-
     post {
         success {
+            // Actions à effectuer en cas de succès
             sh 'echo "Success!"'
         }
         failure {
+            // Actions à effectuer en cas d'échec
             sh 'echo "Failure!"'
         }
     }
+
+
+
+
+
+
 }
