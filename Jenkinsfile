@@ -49,14 +49,25 @@ stage('Tests unitaires avec Mockito') {
                            }
                        }
 
-                      stage('DOCKER DEPLOY') {
-                          steps {
-                              withCredentials([usernamePassword(credentialsId: 'mejriachref', usernameVariable: 'mejriachref', passwordVariable: 'Espritesprit/22')]) {
-                                  sh "echo '$mejriachref' | docker login -u $mejriachref --password-stdin"
-                                  sh 'docker push mejriachref/gestionski-devops:1.0'
-                              }
-                          }
-                      }
+                    stage('DOCKER DEPLOY') {
+                        steps {
+                            script {
+                                // Assuming DOCKERHUB_PASSWORD is your DockerHub password credential
+                                withCredentials([usernamePassword(credentialsId: 'mejriachref', usernameVariable: 'mejriachref', passwordVariable: 'Espritesprit/22')]) {
+
+                                    // Ensure the image is correctly tagged with the DockerHub repository
+                                    sh "docker tag gestionski-devops:1.0 mejriachref/gestionski-devops:1.0"
+
+                                    // Login to DockerHub
+                                    sh "echo '$DOCKERHUB_PASSWORD' | docker login -u '$DOCKERHUB_USERNAME' --password-stdin"
+
+                                    // Push the Docker image to DockerHub
+                                    sh "docker push mejriachref/gestionski-devops:1.0"
+                                }
+                            }
+                        }
+                    }
+
 
 
 
