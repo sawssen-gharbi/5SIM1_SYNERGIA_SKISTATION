@@ -36,8 +36,10 @@ pipeline {
 
          stage('Déploiement dans Nexus') {
             steps {
-                // Exécutez la commande Maven pour déployer le projet dans Nexus en sautant les tests
-                sh 'mvn deploy -Dmaven.test.skip=true'
+                withCredentials([usernamePassword(credentialsId: 'NexusAuth', usernameVariable: 'admin', passwordVariable: 'rania')]) {
+                     sh 'mvn deploy -Dmaven.test.skip=true -Dmaven.deploy.skip=true -DaltDeploymentRepository=deploymentRepo::default::http://localhost:8081/repository/maven-releases/'
+                }
+                //sh 'mvn deploy -Dmaven.test.skip=true'
             }
          }
 
