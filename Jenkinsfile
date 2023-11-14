@@ -5,7 +5,8 @@ pipeline {
         stage('Git') {
             steps {
                 echo 'Pulling from your git repository'
-                git branch: 'achref', url: 'https://Token@github.com/your-username/your-repository.git'
+                sh 'git checkout achref'
+                sh 'git pull'
             }
         }
 
