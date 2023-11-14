@@ -49,16 +49,20 @@ stage('Tests unitaires avec Mockito') {
                            }
                        }
 
-                    withCredentials([string(credentialsId: 'mejriachref', variable: 'DOCKERHUB_PASSWORD')]) {
-                        script {
-                            def loginOutput = sh(script: "docker login -u mejriachref -p $DOCKERHUB_PASSWORD", returnStatus: true).trim()
-                            echo "Docker Login Output: ${loginOutput}"
-                            if (loginOutput != '0') {
-                                error "Docker login failed"
-                            }
-                        }
-                    }
+                       stage('DOCKER DEPLOY') {
+                           steps {
+                              withCredentials([string(credentialsId: 'mejriachref', variable: 'DOCKERHUB_PASSWORD')]) {
+                                  script {
+                                      def loginOutput = sh(script: "docker login -u mejriachref -p $DOCKERHUB_PASSWORD", returnStatus: true).trim()
+                                      echo "Docker Login Output: ${loginOutput}"
+                                      if (loginOutput != '0') {
+                                          error "Docker login failed"
+                                      }
+                                  }
 
+                               }
+                           }
+                       }
 
                          stage('Configure and Start Prometheus and Grafana') {
                                     steps {
