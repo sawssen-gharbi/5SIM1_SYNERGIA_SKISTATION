@@ -101,13 +101,14 @@ pipeline {
 
 
 
-        /* stage('DOCKER BUILD') {
+        stage('DOCKER BUILD') {
             steps{
-                 sh 'docker build -t gestionski-devops:1.0 .'
+
+                 sh 'docker build -t gestionski-devops:1.0 . --no-cache'
                  }
              }
 
-         stage('DOCKER DEPLOY') {
+       /*  stage('DOCKER DEPLOY') {
              steps {
                  withCredentials([string(credentialsId: 'sawssenhub_id', variable: 'DOCKERHUB_PASSWORD')]) {
                      sh 'docker login -u sawssen97 -p $DOCKERHUB_PASSWORD'
@@ -117,12 +118,17 @@ pipeline {
          }*/
 
 
-            stage('DOCKER BUILD') {
+            /*stage('DOCKER BUILD') {
                       steps {
-                          sh 'docker build -t sawssen97/gestionski-devops:40 . --verbose'
+                          script {
+
+
+                              // Build Docker image
+                              dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                          }
                       }
                   }
-
+*/
                  stage('DOCKER DEPLOY') {
                      steps {
                          script {
