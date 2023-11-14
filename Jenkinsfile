@@ -20,15 +20,20 @@ pipeline {
                 sh 'mvn compile'
             }
         }
-       stage('Email Notification') {
-           steps {
-               echo 'Before Email Notification'
-               mail bcc: '', body: '''hello welcome to Jenkins emails alert
-               thanks
-               Rania''', cc: '', from: '', replyTo: '', subject: '', to: 'rania99belhajyoussef@gmail.com'
-               echo 'After Email Notification'
-           }
-       }
+     stage('Email Notification') {
+         steps {
+             mail (
+                 to: 'rania99belhajyoussef@gmail.com',
+                 subject: 'Jenkins Build Notification',
+                 body: '''
+                 hello welcome to Jenkins emails alert
+                 thanks
+                 Rania
+                 '''
+             )
+         }
+     }
+
 
 
 
