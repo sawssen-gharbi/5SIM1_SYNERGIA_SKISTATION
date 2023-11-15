@@ -6,13 +6,18 @@ services:
     restart: unless-stopped
     ports:
       - 3306:3306
+    networks:
+      - mynetwork
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=true
     volumes:
       - db:/var/lib/mysql
   gestionski-backend:
+    image: hamzanechi/gestionski-devops:${BUILD_NUMBER}
     depends_on:
       - mysqldb
+    networks:
+      - mynetwork
     build: ./
     restart: on-failure
     ports:
@@ -28,6 +33,10 @@ services:
       -  .m2:/root/.m2
     stdin_open: true
     tty: true
+
+networks:
+    mynetwork:
+      driver: bridge
 
 volumes:
   db:
