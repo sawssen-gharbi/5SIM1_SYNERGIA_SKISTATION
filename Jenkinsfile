@@ -30,10 +30,15 @@ environment {
 
 
 stage('MVN SONARQUBE') {
-             steps {
-                 sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonarqube'
-             }
-         }
+    steps {
+        withCredentials([
+            string(credentialsId: 'sonar-token-id', variable: 'SONAR_TOKEN')
+        ]) {
+            sh "mvn sonar:sonar -Dsonar.login=$SONAR_TOKEN"
+        }
+    }
+}
+
 
   stage('Tests unitaires avec Mockito') {
             steps {
