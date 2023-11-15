@@ -34,17 +34,7 @@ stage('MVN SONARQUBE') {
                  sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonarqube'
              }
          }
-          stage('JUNIT TEST with JaCoCo') {
-               steps {
-                 sh 'mvn test jacoco:report'
-                 echo 'Test stage done'
-               }
-             }
-         stage('Collect JaCoCo Coverage') {
-                     steps{
-                            jacoco(execPattern: '**/target/jacoco.exec')
-             }
-                 }
+
   stage('Tests unitaires avec Mockito') {
             steps {
                 // Exécutez les tests unitaires pour chaque module ici
