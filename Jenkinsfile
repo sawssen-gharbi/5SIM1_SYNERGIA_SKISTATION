@@ -109,7 +109,7 @@ stage('MVN SONARQUBE') {
 
                          stage('DOCKER COMPOSE') {
                                       steps {
-                                              sh 'docker-compose up -d'
+                                              sh 'docker compose up -d'
                                             }
                                   }
                                        stage('Email Notification') {
