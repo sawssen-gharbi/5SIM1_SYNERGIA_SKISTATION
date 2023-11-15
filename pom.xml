@@ -57,6 +57,11 @@
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+			<version>4.0.3</version> <!-- Mettez à jour avec la dernière version disponible -->
+		</dependency>
 	</dependencies>
 
 
