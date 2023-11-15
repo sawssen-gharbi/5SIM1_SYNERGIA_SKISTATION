@@ -1,6 +1,12 @@
 pipeline {
     agent any
-
+environment {
+    NEXUS_VERSION = "nexus3"
+    NEXUS_PROTOCOL = "http"
+    NEXUS_URL = "192.168.33.10:8081"
+    NEXUS_REPOSITORY = "maven-releases/"
+    NEXUS_CREDENTIAL_ID = "nexusrania"
+}
     stages {
         stage('Récupération du code de la branche') {
             steps {
@@ -48,12 +54,42 @@ pipeline {
                 sh 'mvn install -Dmaven.test.skip=true'
             }
         }
-             stage('Déploiement dans Nexus') {
-                    steps {
-                        // Exécutez la commande Maven pour déployer le projet dans Nexus en sautant les tests
-                        sh 'mvn deploy -Dmaven.test.skip=true'
-                    }
-                }
+        stage("NEXUS") {
+                   steps {
+                       script {
+                           pom = readMavenPom file: "pom.xml";
+                           filesByGlob = findFiles(glob: "target/*.${pom.packaging}");
+                           echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
+                           artifactPath = filesByGlob[0].path;
+                           artifactExists = fileExists artifactPath;
+                           if(artifactExists) {
+                               echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
+                               nexusArtifactUploader(
+                                   nexusVersion: NEXUS_VERSION,
+                                   protocol: NEXUS_PROTOCOL,
+                                   nexusUrl: NEXUS_URL,
+                                   groupId: pom.groupId,
+                                   version: pom.version,
+                                   repository: NEXUS_REPOSITORY,
+                                   credentialsId: NEXUS_CREDENTIAL_ID,
+                                   artifacts: [
+                                       [artifactId: pom.artifactId,
+                                       classifier: '',
+                                       file: artifactPath,
+                                       type: pom.packaging],
+                                       [artifactId: pom.artifactId,
+                                       classifier: '',
+                                       file: "pom.xml",
+                                       type: "pom"]
+                                   ]
+                               );
+                           } else {
+                               error "*** File: ${artifactPath}, could not be found";
+                           }
+                       }
+                   }
+               }
+
                stage('DOCKER BUILD') {
                                           steps {
                                               // Arrêter les conteneurs Docker précédents s'ils sont en cours d'exécution
@@ -83,7 +119,7 @@ pipeline {
                                            }
                          stage('DOCKER COMPOSE') {
                                       steps {
-                                              sh 'docker-compose up -d'
+                                              sh 'docker compose up -d'
                                             }
                                   }
     }
