@@ -92,6 +92,26 @@ pipeline {
                      sh 'docker compose up -d'
                    }
          }
+
+
+
+         stage('Email Notification') {
+                     steps {
+                         script {
+                             currentBuild.result = 'SUCCESS'
+                             emailext(
+                                 subject: "Build #${currentBuild.number} Successful: ${currentBuild.fullDisplayName}",
+                                 body: """
+                                     The build was successful!
+                                     Build Details: ${BUILD_URL}
+                                     Build Number: ${currentBuild.number}
+                                     Build Status: ${currentBuild.currentResult}
+                                 """,
+                                 to: 'hamza.nechi@esprit.tn'
+                             )
+                         }
+                     }
+                 }
        }
 
     post {
