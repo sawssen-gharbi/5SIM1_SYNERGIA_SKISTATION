@@ -114,6 +114,7 @@ stage('MVN SONARQUBE') {
 
                          stage('DOCKER COMPOSE') {
                                       steps {
+                                             sh ' docker compose pull'
                                               sh 'docker compose up -d'
                                             }
                                   }
