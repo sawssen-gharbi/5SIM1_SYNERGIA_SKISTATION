@@ -55,8 +55,8 @@ pipeline {
 
         stage('TESTS UNITAIRES MOCKITO') {
             steps {
-                //sh 'mvn test'
-               sh 'mvn install -Dmaven.test.skip=true'
+                sh 'mvn test'
+              // sh 'mvn install -Dmaven.test.skip=true'
                   }
         }
         //hi
@@ -129,7 +129,7 @@ pipeline {
 
                               }   */
 
-                             sh 'echo "Already deployed!"'
+                             //sh 'echo "Already deployed!"'
                      }
                  }
 
