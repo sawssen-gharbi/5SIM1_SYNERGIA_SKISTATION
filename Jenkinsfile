@@ -39,7 +39,6 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'NexusAuth', usernameVariable: 'admin', passwordVariable: 'rania')]) {
                      sh 'mvn deploy -Dmaven.test.skip=true -Dmaven.deploy.skip=true -DaltDeploymentRepository=deploymentRepo::default::http://localhost:8081/repository/maven-releases/'
                 }
-                //sh 'mvn deploy -Dmaven.test.skip=true'
             }
          }
 
@@ -51,9 +50,9 @@ pipeline {
 
          stage('DOCKER DEPLOY') {
              steps {
-                 withCredentials([string(credentialsId: 'DockerHubId', variable: 'DOCKERHUB_PASSWORD')]) {
-                     sh 'docker login -u hamzanechi -p $DOCKERHUB_PASSWORD'
-                     sh 'docker push hamzanechi/gestionski-devops:1.0'
+                 withCredentials([usernamePassword(credentialsId: 'DockerHubPasswordId', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+                      sh 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD'
+                      sh 'docker push hamzanechi/gestionski-devops:1.0'
                  }
              }
          }
