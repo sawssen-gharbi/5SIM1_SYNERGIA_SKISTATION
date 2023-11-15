@@ -129,7 +129,7 @@ pipeline {
 
                               }   */
 
-                              sh 'Already deployed'
+                             sh 'echo "Already deployed!"'
                      }
                  }
 
