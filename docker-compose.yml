@@ -6,6 +6,8 @@ services:
     restart: unless-stopped
     ports:
       - 3306:3306
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
     volumes:
       - db:/var/lib/mysql
   gestionski-backend:
