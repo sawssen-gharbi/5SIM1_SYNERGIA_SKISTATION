@@ -51,7 +51,7 @@ environment {
   stage('Tests unitaires avec Mockito') {
             steps {
                 // Exécutez les tests unitaires pour chaque module ici
-                sh 'mvn install -Dmaven.test.skip=true'
+                sh 'mvn -Dmaven.test.failure.ignore=true test'
             }
         }
         stage("NEXUS") {
@@ -119,7 +119,7 @@ environment {
                                            }
                          stage('DOCKER COMPOSE') {
                                       steps {
-                                              sh 'docker compose up -d'
+                                              sh 'docker-compose up -d'
                                             }
                                   }
     }
