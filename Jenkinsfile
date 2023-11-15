@@ -32,7 +32,7 @@ environment {
 stage('MVN SONARQUBE') {
     steps {
         withCredentials([
-            string(credentialsId: 'sonar-token-id', variable: 'SONAR_TOKEN')
+            string(credentialsId: 'sonarToken', variable: 'SONAR_TOKEN')
         ]) {
             sh "mvn sonar:sonar -Dsonar.login=$SONAR_TOKEN"
         }
