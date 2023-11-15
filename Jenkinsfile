@@ -39,7 +39,7 @@ pipeline {
              steps {
                 // Exécutez les tests unitaires pour chaque module ici
                 //sh 'mvn install -Dmaven.test.skip=true'
-                sh 'mvn test'
+                sh 'mvn clean test'
              }
          }
 
