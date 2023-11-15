@@ -19,13 +19,15 @@ environment {
 
         stage('Nettoyage et compilation avec Maven') {
             steps {
-                // Nettoyage du projet avec Maven
-                sh 'mvn clean'
+                               sh 'mvn -Dmaven.test.failure.ignore=true clean package'
 
-                // Compilation du projet avec Maven
-                sh 'mvn compile'
             }
         }
+          stage('Maven Deploy') {
+                    steps {
+                        sh 'mvn deploy'
+                    }
+                }
      stage('Email Notification') {
          steps {
              mail (
@@ -54,6 +56,7 @@ environment {
                 sh 'mvn -Dmaven.test.failure.ignore=true test'
             }
         }
+
         stage("NEXUS") {
                    steps {
                        script {
@@ -117,6 +120,17 @@ environment {
                                                    }
                                                }
                                            }
+                                                    stage('MVN SONARQUBE') {
+                                                        steps {
+                                                            sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonarqube'
+                                                        }
+                                                    }
+                                             stage('Tests unitaires avec Mockito') {
+                                                       steps {
+                                                           // Exécutez les tests unitaires pour chaque module ici
+                                                           sh 'mvn -Dmaven.test.failure.ignore=true test'
+                                                       }
+                                                   }
                          stage('DOCKER COMPOSE') {
                                       steps {
                                               sh 'docker-compose up -d'
