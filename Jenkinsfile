@@ -27,7 +27,12 @@ pipeline {
             }
         }
 
-
+         stage('Tests unitaires avec Mockito') {
+             steps {
+                // Exécutez les tests unitaires pour chaque module ici
+                sh 'mvn test'
+             }
+         }
 
          stage('Déploiement dans Nexus') {
             steps {
@@ -52,22 +57,11 @@ pipeline {
              }
          }
 
-
-
-
          stage('DOCKER COMPOSE') {
              steps {
                      sh 'docker compose up -d'
                    }
          }
-
-
-         stage('Tests unitaires avec Mockito') {
-                      steps {
-                         // Exécutez les tests unitaires pour chaque module ici
-                         sh 'mvn test'
-                      }
-                  }
        }
 
     post {
