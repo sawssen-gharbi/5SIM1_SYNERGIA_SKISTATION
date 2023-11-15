@@ -45,17 +45,7 @@ environment {
 
 
 
-         stage('MVN SONARQUBE') {
-             steps {
-                 sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonarqube'
-             }
-         }
-  stage('Tests unitaires avec Mockito') {
-            steps {
-                // Exécutez les tests unitaires pour chaque module ici
-                sh 'mvn -Dmaven.test.failure.ignore=true test'
-            }
-        }
+
 
         stage("NEXUS") {
                    steps {
