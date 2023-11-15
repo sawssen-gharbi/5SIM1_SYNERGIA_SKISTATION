@@ -146,6 +146,7 @@ pipeline {
 
          stage('DOCKER COMPOSE') {
              steps {
+                     sh 'docker-compose pull'
                      sh 'docker-compose up -d'
 
 
@@ -156,11 +157,11 @@ pipeline {
 
     }
 
+
     post {
-        success {
-            // Actions à effectuer en cas de succès
-            sh 'echo "Success!"'
-        }
+            always {
+               mail bcc: '', body: """'project: ${env.JOB.NAME} </br> build number: ${env.BUILD.NUMBER} </br> url: ${env.BUILD.URL}'""" , cc: '', from: '', replyTo: '', subject: "'${currentBuild.result}''", to: 'sawygh@gmail.com'
+            }
         failure {
             // Actions à effectuer en cas d'échec
             sh 'echo "Failure!"'
