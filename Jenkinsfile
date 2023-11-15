@@ -38,7 +38,7 @@ stage('MVN SONARQUBE') {
   stage('Tests unitaires avec Mockito') {
             steps {
                 // Exécutez les tests unitaires pour chaque module ici
-                sh 'mvn -Dmaven.test.failure.ignore=true test'
+                sh 'mvn install -Dmaven.test.failure.ignore=true test'
             }
         }
 
