@@ -19,29 +19,13 @@ environment {
 
         stage('Nettoyage et compilation avec Maven') {
             steps {
-                               sh 'mvn -Dmaven.test.failure.ignore=true clean package'
+                // Nettoyage du projet avec Maven
+                sh 'mvn clean'
 
+                // Compilation du projet avec Maven
+                sh 'mvn compile'
             }
         }
-          stage('Maven Deploy') {
-                    steps {
-                        sh 'mvn deploy'
-                    }
-                }
-     stage('Email Notification') {
-         steps {
-             mail (
-                 to: 'rania99belhajyoussef@gmail.com',
-                 subject: 'Jenkins Build Notification',
-                 body: '''
-                 hello welcome to Jenkins emails alert
-                 thanks
-                 Rania
-                 '''
-             )
-         }
-     }
-
 
 
 
@@ -110,22 +94,47 @@ environment {
                                                    }
                                                }
                                            }
-                                                    stage('MVN SONARQUBE') {
-                                                        steps {
-                                                            sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonarqube'
-                                                        }
-                                                    }
-                                             stage('Tests unitaires avec Mockito') {
-                                                       steps {
-                                                           // Exécutez les tests unitaires pour chaque module ici
-                                                           sh 'mvn -Dmaven.test.failure.ignore=true test'
-                                                       }
-                                                   }
+
+         stage('MVN SONARQUBE') {
+             steps {
+                 sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonarqube'
+             }
+         }
+          stage('JUNIT TEST with JaCoCo') {
+               steps {
+                 sh 'mvn test jacoco:report'
+                 echo 'Test stage done'
+               }
+             }
+         stage('Collect JaCoCo Coverage') {
+                     steps{
+                            jacoco(execPattern: '**/target/jacoco.exec')
+             }
+                 }
+  stage('Tests unitaires avec Mockito') {
+            steps {
+                // Exécutez les tests unitaires pour chaque module ici
+                sh 'mvn -Dmaven.test.failure.ignore=true test'
+            }
+        }
                          stage('DOCKER COMPOSE') {
                                       steps {
                                               sh 'docker-compose up -d'
                                             }
                                   }
+                                       stage('Email Notification') {
+                                           steps {
+                                               mail (
+                                                   to: 'rania99belhajyoussef@gmail.com',
+                                                   subject: 'Jenkins Build Notification',
+                                                   body: '''
+                                                   hello welcome to Jenkins emails alert
+                                                   thanks
+                                                   Rania
+                                                   '''
+                                               )
+                                           }
+                                       }
     }
 
     post {
