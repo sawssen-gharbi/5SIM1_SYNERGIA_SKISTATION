@@ -103,11 +103,11 @@ sh 'mvn install -Dmaven.test.failure.ignore=true test'            }
                       }
                   }
 
-       stage('Docker compose') {
-       steps {
-             sh "docker-compose up -d"
-       }
-         }
+stage('DOCKER COMPOSE') {
+    steps {
+        sh 'docker-compose up -d'
+    }
+}
 
 
 
