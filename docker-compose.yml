@@ -2,11 +2,10 @@ version: "3"
 
 services:
   mysqldb:
-    image: mysql:5.7
+    image: mysql:latest
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=stationSki
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
     ports:
       - 3307:3306
     volumes:
