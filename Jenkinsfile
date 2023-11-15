@@ -40,7 +40,13 @@ stage('MVN SONARQUBE') {
                 sh 'mvn install -Dmaven.test.failure.ignore=true test'
             }
         }
+ stage('Package Artifact ') {
+           steps {
 
+                    sh "mvn package -DskipTests"
+
+           }
+        }
        stage('Deploiment Artifact a Nexus') {
             steps {
                 script {
