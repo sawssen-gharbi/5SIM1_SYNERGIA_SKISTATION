@@ -105,12 +105,10 @@ sh 'mvn install -Dmaven.test.failure.ignore=true test'            }
 
 stage('DOCKER COMPOSE') {
     steps {
+     sh 'docker compose pull'
         sh 'docker compose up -d'
     }
 }
-
-
-
 
 
 }
@@ -124,10 +122,6 @@ stage('DOCKER COMPOSE') {
             sh 'echo "Failure!"'
         }
     }
-
-
-
-
 
 
 }
