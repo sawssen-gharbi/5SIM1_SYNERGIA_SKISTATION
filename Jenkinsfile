@@ -52,7 +52,8 @@ pipeline {
              steps {
                  withCredentials([usernamePassword(credentialsId: 'DockerHubId', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
                              sh 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD'
-                             sh 'docker push hamzanechi/gestionski-devops:1.0'
+                             sh 'docker push docker.io/hamzanechi/gestionski-devops:1.0'
+                             //sh 'docker push hamzanechi/gestionski-devops:1.0'
                          }
              }
          }
