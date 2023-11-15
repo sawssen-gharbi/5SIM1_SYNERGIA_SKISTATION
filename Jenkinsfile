@@ -50,10 +50,8 @@ pipeline {
 
          stage('DOCKER DEPLOY') {
              steps {
-                 withCredentials([usernamePassword(credentialsId: 'DockerHubId', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
-                             sh 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD'
-                             sh 'docker push hamzanechi/gestionski-devops:1.0'
-                         }
+                 docker login -u hamzanechi -p dockernechi*114
+                 docker push hamzanechi/gestionski-devops:1.0
              }
          }
 
