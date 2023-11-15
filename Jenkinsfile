@@ -108,7 +108,7 @@ pipeline {
 
 
 
-            stage('DOCKER BUILD') {
+          /* stage('DOCKER BUILD') {
                       steps {
                           script {
 
@@ -128,7 +128,7 @@ pipeline {
                              }
                          }
                      }
-                 }
+                 }*/
 
    /*stage('DOCKER DEPLOY') {
              steps {
@@ -141,7 +141,7 @@ pipeline {
 
          stage('DOCKER COMPOSE') {
              steps {
-                     sh 'docker-compose up'
+                     sh 'docker-compose up -d'
 
                    }
          }
