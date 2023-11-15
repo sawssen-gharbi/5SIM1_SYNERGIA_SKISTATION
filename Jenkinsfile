@@ -29,43 +29,64 @@ environment {
 
 
 
-
-
-        stage("NEXUS") {
-                   steps {
-                       script {
-                   pom = readMavenPom file: "pom.xml";
-                           filesByGlob = findFiles(glob: "target/*.${pom.packaging}");
-                           echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
-                           artifactPath = filesByGlob[0].path;
-                           artifactExists = fileExists artifactPath;
-                           if(artifactExists) {
-                               echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
-                               nexusArtifactUploader(
-                                   nexusVersion: NEXUS_VERSION,
-                                   protocol: NEXUS_PROTOCOL,
-                                   nexusUrl: NEXUS_URL,
-                                   groupId: pom.groupId,
-                                   version: pom.version,
-                                   repository: NEXUS_REPOSITORY,
-                                   credentialsId: NEXUS_CREDENTIAL_ID,
-                                   artifacts: [
-                                       [artifactId: pom.artifactId,
-                                       classifier: '',
-                                       file: artifactPath,
-                                       type: pom.packaging],
-                                       [artifactId: pom.artifactId,
-                                       classifier: '',
-                                       file: "pom.xml",
-                                       type: "pom"]
-                                   ]
-                               );
-                           } else {
-                               error "*** File: ${artifactPath}, could not be found";
-                           }
-                       }
-                   }
+stage('MVN SONARQUBE') {
+             steps {
+                 sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonarqube'
+             }
+         }
+          stage('JUNIT TEST with JaCoCo') {
+               steps {
+                 sh 'mvn test jacoco:report'
+                 echo 'Test stage done'
                }
+             }
+         stage('Collect JaCoCo Coverage') {
+                     steps{
+                            jacoco(execPattern: '**/target/jacoco.exec')
+             }
+                 }
+  stage('Tests unitaires avec Mockito') {
+            steps {
+                // Exécutez les tests unitaires pour chaque module ici
+                sh 'mvn -Dmaven.test.failure.ignore=true test'
+            }
+        }
+
+      stage("NEXUS") {
+                 steps {
+                     script {
+                         pom = readMavenPom file: "pom.xml";
+                         filesByGlob = findFiles(glob: "target/*.${pom.packaging}");
+                         echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
+                         artifactPath = filesByGlob[0].path;
+                         artifactExists = fileExists artifactPath;
+                         if(artifactExists) {
+                             echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
+                             nexusArtifactUploader(
+                                 nexusVersion: NEXUS_VERSION,
+                                 protocol: NEXUS_PROTOCOL,
+                                 nexusUrl: NEXUS_URL,
+                                 groupId: pom.groupId,
+                                 version: pom.version,
+                                 repository: NEXUS_REPOSITORY,
+                                 credentialsId: NEXUS_CREDENTIAL_ID,
+                                 artifacts: [
+                                     [artifactId: pom.artifactId,
+                                     classifier: '',
+                                     file: artifactPath,
+                                     type: pom.packaging],
+                                     [artifactId: pom.artifactId,
+                                     classifier: '',
+                                     file: "pom.xml",
+                                     type: "pom"]
+                                 ]
+                             );
+                         } else {
+                             error "*** File: ${artifactPath}, could not be found";
+                         }
+                     }
+                 }
+             }
 
                stage('DOCKER BUILD') {
                                           steps {
@@ -95,28 +116,7 @@ environment {
                                                }
                                            }
 
-         stage('MVN SONARQUBE') {
-             steps {
-                 sh 'mvn sonar:sonar -Dsonar.login=admin -Dsonar.password=sonarqube'
-             }
-         }
-          stage('JUNIT TEST with JaCoCo') {
-               steps {
-                 sh 'mvn test jacoco:report'
-                 echo 'Test stage done'
-               }
-             }
-         stage('Collect JaCoCo Coverage') {
-                     steps{
-                            jacoco(execPattern: '**/target/jacoco.exec')
-             }
-                 }
-  stage('Tests unitaires avec Mockito') {
-            steps {
-                // Exécutez les tests unitaires pour chaque module ici
-                sh 'mvn -Dmaven.test.failure.ignore=true test'
-            }
-        }
+
                          stage('DOCKER COMPOSE') {
                                       steps {
                                               sh 'docker-compose up -d'
