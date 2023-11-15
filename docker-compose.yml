@@ -15,14 +15,17 @@ services:
     depends_on:
       - mysqldb
     image: sawssen97/gestionski-devops:latest
-    build: ./
-    restart: always
+    build: .
+    restart: on-failure
     ports:
       - 8089:8089
     environment:
-      - MYSQL_HOST= mysqldb
-      - MYSQL_PASSWORD=root
-      - MYSQL_PORT=3306
+      - spring.datasource.url=jdbc:mysql://mysqldb:3306/stationSki?createDatabaseIfNotExist=true
+      - spring.datasource.username=root
+      - spring.datasource.password=
+      - spring.jpa.show-sql=true
+      - spring.jpa.hibernate.ddl-auto=update
+      - spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL57Dialect
 
     volumes:
       -  .m2:/root/.m2
