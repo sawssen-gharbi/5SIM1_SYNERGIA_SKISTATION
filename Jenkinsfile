@@ -121,15 +121,15 @@ pipeline {
 
                  stage('DOCKER DEPLOY') {
                      steps {
-                         /*script {
+                         script {
                              docker.withRegistry( '', registryCredential ) {
                               dockerImage.push()
 
                              }
 
-                              }*/
+                              }
 
-                            sh 'echo "Already deployed!"'
+                            //sh 'echo "Already deployed!"'
                      }
                  }
 
