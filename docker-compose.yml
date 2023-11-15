@@ -4,6 +4,7 @@ services:
   mysqldb:
     image: mysql:5.7
     restart: unless-stopped
+    env_file: ./.env
     environment:
       - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
       - MYSQL_DATABASE=$MYSQLDB_DATABASE
@@ -16,6 +17,7 @@ services:
       - mysqldb
     image: sawssen97/gestionski-devops:latest
     build: ./
+    env_file: ./.env
     restart: on-failure
     ports:
       - 8089:8089
