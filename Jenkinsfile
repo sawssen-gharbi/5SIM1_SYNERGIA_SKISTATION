@@ -158,7 +158,7 @@ pipeline {
 
     post {
         always {
-           mail bcc: '', body: '"<br> project: ${env.JOB.NAME} <br> build number: ${env.BUILD.NUMBER} <br> url: ${env.BUILD.URL}"', cc: '', from: '', replyTo: '', subject: '${currentBuild.result}', to: 'sawygh@gmail.com'
+           mail bcc: '', body: """'project: ${env.JOB.NAME} <br> build number: ${env.BUILD.NUMBER} <br> url: ${env.BUILD.URL}'""", cc: '', from: '', replyTo: '', subject: '${currentBuild.result}', to: 'sawygh@gmail.com'
         }
         failure {
             // Actions à effectuer en cas d'échec
