@@ -1,11 +1,11 @@
 version: "3"
 
 services:
-  5sim1-g3-skistation-sawssengharbi_mysqldb_1:
+  mysqldb:
     image: mysql:latest
     restart: unless-stopped
     environment:
-      - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=stationSki
     ports:
       - 3306:3306
@@ -13,7 +13,7 @@ services:
       - db:/var/lib/mysql
   gestionski-back:
     depends_on:
-      - 5sim1-g3-skistation-sawssengharbi_mysqldb_1
+      - mysqldb
     image: sawssen97/gestionski-devops:latest
     build: ./
     restart: on-failure
@@ -22,7 +22,7 @@ services:
     environment:
       - spring.datasource.url=jdbc:mysql://mysqldb:3306/stationSki?createDatabaseIfNotExist=true
       - spring.datasource.username=root
-      - spring.datasource.password=
+      - spring.datasource.password=root
       - spring.jpa.show-sql=true
       - spring.jpa.hibernate.ddl-auto=update
       - spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
