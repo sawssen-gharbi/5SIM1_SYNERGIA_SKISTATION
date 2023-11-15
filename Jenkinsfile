@@ -56,7 +56,7 @@ pipeline {
         stage('TESTS UNITAIRES MOCKITO') {
             steps {
                 sh 'mvn test'
-               // sh 'mvn install -Dmaven.test.skip=true'
+               //sh 'mvn install -Dmaven.test.skip=true'
                   }
         }
         //hi
@@ -108,7 +108,7 @@ pipeline {
 
 
 
-          /* stage('DOCKER BUILD') {
+           stage('DOCKER BUILD') {
                       steps {
                           script {
 
@@ -121,14 +121,16 @@ pipeline {
 
                  stage('DOCKER DEPLOY') {
                      steps {
-                         script {
+                         /*script {
                              docker.withRegistry( '', registryCredential ) {
                               dockerImage.push()
 
-                             }
+                             }*/
+                              sh 'Already deployed'
                          }
                      }
-                 }*/
+                 }
+
 
    /*stage('DOCKER DEPLOY') {
              steps {
@@ -142,6 +144,7 @@ pipeline {
          stage('DOCKER COMPOSE') {
              steps {
                      sh 'docker-compose up -d'
+
 
                    }
          }
