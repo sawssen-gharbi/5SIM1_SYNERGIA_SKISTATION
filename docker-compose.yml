@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  mysqldb:
+  5sim1-g3-skistation-sawssengharbi_mysqldb_1:
     image: mysql:latest
     restart: unless-stopped
     environment:
@@ -13,7 +13,7 @@ services:
       - db:/var/lib/mysql
   gestionski-back:
     depends_on:
-      - mysqldb
+      - 5sim1-g3-skistation-sawssengharbi_mysqldb_1
     image: sawssen97/gestionski-devops:latest
     build: ./
     restart: on-failure
@@ -22,7 +22,7 @@ services:
     environment:
       - spring.datasource.url=jdbc:mysql://mysqldb:3306/stationSki?createDatabaseIfNotExist=true
       - spring.datasource.username=root
-      - spring.datasource.password=root
+      - spring.datasource.password=
       - spring.jpa.show-sql=true
       - spring.jpa.hibernate.ddl-auto=update
       - spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
