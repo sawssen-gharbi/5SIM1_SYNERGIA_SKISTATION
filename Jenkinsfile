@@ -157,19 +157,10 @@ pipeline {
     }
 
     post {
-        always {
-            mail(
-                bcc: '',
-                body: "project: ${env.JOB_NAME} <br> build number: ${env.BUILD_NUMBER} <br> url: ${env.BUILD_URL}",
-                cc: '',
-                from: '',
-                replyTo: '',
-                subject: "${currentBuild.result}",
-                to: 'sawygh@gmail.com'
-            )
+        success {
+            // Actions à effectuer en cas de succès
+            sh 'echo "Success!"'
         }
-    }
-
         failure {
             // Actions à effectuer en cas d'échec
             sh 'echo "Failure!"'
