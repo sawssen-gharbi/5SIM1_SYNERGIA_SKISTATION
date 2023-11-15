@@ -125,9 +125,11 @@ pipeline {
                              docker.withRegistry( '', registryCredential ) {
                               dockerImage.push()
 
-                             }*/
+                             }
+
+                              }   */
+
                               sh 'Already deployed'
-                         }
                      }
                  }
 
