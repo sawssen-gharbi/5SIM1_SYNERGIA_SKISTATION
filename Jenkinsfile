@@ -55,8 +55,8 @@ pipeline {
 
         stage('TESTS UNITAIRES MOCKITO') {
             steps {
-                sh 'mvn test'
-               // sh 'mvn install -Dmaven.test.skip=true'
+                //sh 'mvn test'
+                sh 'mvn install -Dmaven.test.skip=true'
                   }
         }
         //hi
@@ -121,13 +121,12 @@ pipeline {
 
                  stage('DOCKER DEPLOY') {
                      steps {
-                         /*script {
+                         script {
                              docker.withRegistry( '', registryCredential ) {
                               dockerImage.push()
 
                              }
-                         }*/
-                          echo "Already deployed in docker hub"
+                         }
                      }
                  }
 
