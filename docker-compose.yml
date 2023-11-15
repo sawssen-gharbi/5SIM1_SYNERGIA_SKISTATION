@@ -10,6 +10,8 @@ services:
       - MYSQL_DATABASE=$MYSQLDB_DATABASE
     ports:
       - 3306:3306
+    networks:
+      - mynetwork
     volumes:
       - db:/var/lib/mysql
   gestionski-back:
@@ -21,6 +23,8 @@ services:
     restart: on-failure
     ports:
       - 8089:8089
+    networks:
+      - mynetwork
     environment:
       SPRING_APPLICATION_JSON: '{
             "spring.datasource.url"  : "jdbc:mysql://mysqldb:3306/stationSki?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true",
@@ -35,5 +39,9 @@ services:
     stdin_open: true
     tty: true
 
+networks:
+  mynetwork:
+    driver: bridge
+
 volumes:
-  db:
+    db:
