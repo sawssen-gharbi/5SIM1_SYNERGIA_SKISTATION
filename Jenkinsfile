@@ -100,12 +100,11 @@ pipeline {
                          script {
                              currentBuild.result = 'SUCCESS'
                              emailext(
-                                 subject: "Build #${currentBuild.number} Successful: ${currentBuild.fullDisplayName}",
+                                 subject: "Suivi de pipeline Jenkins",
                                  body: """
-                                     The build was successful!
-                                     Build Details: ${BUILD_URL}
-                                     Build Number: ${currentBuild.number}
-                                     Build Status: ${currentBuild.currentResult}
+                                     Success!!
+                                     Build Number: 1
+                                     Build Status: success
                                  """,
                                  to: 'hamza.nechi@esprit.tn'
                              )
