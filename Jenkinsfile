@@ -151,12 +151,23 @@ pipeline {
                    }
          }
 
-         stage("EMAIL")  {
-         steps {
-         script {
-          mail bcc: '', body: """'project: ${env.JOB_NAME} </br> build number: ${env.BUILD_NUMBER} </br> url: ${env.BUILD_URL}'""" , cc: '', from: '', replyTo: '', subject: "'${currentBuild.result}''", to: 'sawygh@gmail.com'
+         stage("EMAIL") {
+             steps {
+                 script {
+                     def buildResult = currentBuild.result ?: 'RESULT' // Providing a default value if currentBuild.result is null
+                     mail (
+                         to: 'sawygh@gmail.com',
+                         subject: "Build Result: ${buildResult}",
+                         body: "Project: ${env.JOB_NAME} </br> Build Number: ${env.BUILD_NUMBER} </br> URL: ${env.BUILD_URL}",
+                         cc: '',
+                         bcc: '',
+                         from: '',
+                         replyTo: ''
+                     )
+                 }
+             }
          }
-         }
+
     }
 
 
