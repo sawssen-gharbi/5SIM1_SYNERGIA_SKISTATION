@@ -104,9 +104,10 @@ sh 'mvn install -Dmaven.test.failure.ignore=true test'            }
 
 stage('DOCKER COMPOSE') {
     steps {
-        sh 'docker compose up -d'
+        sh 'docker-compose -f 5SIM1_SYNERGIA_SKISTATION-master\docker-compose.yaml up -d'
     }
 }
+
 
 
 }
