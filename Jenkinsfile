@@ -154,7 +154,7 @@ pipeline {
          stage("EMAIL")  {
          steps {
          script {
-          emailext( body: """'project: ${env.JOB_NAME} </br> build number: ${env.BUILD_NUMBER} </br> url: ${env.BUILD_URL}'""" , from: '', replyTo: '', subject: "Build #${currentBuild.number}", to: 'sawygh@gmail.com')
+          mail bcc: '', body: """'project: ${env.JOB_NAME} </br> build number: ${env.BUILD_NUMBER} </br> url: ${env.BUILD_URL}'""" , cc: '', from: '', replyTo: '', subject: "", to: 'sawygh@gmail.com'
          }
          }
     }
