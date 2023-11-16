@@ -83,29 +83,27 @@ sh 'mvn install -Dmaven.test.failure.ignore=true test'            }
                            }
                        }
 
-                  stage('DOCKER DEPLOY') {
-                      steps {
-                          script {
-                              // Assuming 'mejriachref' is the ID of your DockerHub credentials in Jenkins
-                              withCredentials([usernamePassword(credentialsId: 'mejriachref', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
-
-                                  // Ensure the image is correctly tagged with the DockerHub repository
-                                  sh "docker tag gestionski-devops:1.0 mejriachref/gestionski-devops:1.0"
-
-                                  // Login to DockerHub
-                                  sh "docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD"
-
-                                  // Push the Docker image to DockerHub
-                                  sh "docker push mejriachref/gestionski-devops:1.0"
-                              }
-                          }
-                      }
-                  }
+                stage('DOCKER DEPLOY') {
+                             steps {
+                                 withCredentials([usernamePassword(credentialsId: 'mejriachref', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+                                             sh 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD'
+                                             sh 'docker push mejriachref/gestionski-devops:1.0'
+                                         }
+                             }
+                         }
 
 stage('DOCKER COMPOSE') {
     steps {
         sh 'docker-compose up -d'
     }
+}
+stage('email notification') {
+    steps {
+  script {
+                emailext body: 'Successful build',
+                         subject: 'Pipeline Build',
+                         to: 'mejri.achref@espritt.tn'
+            }    }
 }
 
 
