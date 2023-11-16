@@ -15,7 +15,7 @@ services:
 
 
   spring-app:
-    image: mejriachref/gestionski-devops:${BUILD_NUMBER}
+    image: mejriachref/gestionski-devops:1.0
     restart: on-failure
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/stationSki?createDatabaseIfNotExist=true&useUnicode=true
