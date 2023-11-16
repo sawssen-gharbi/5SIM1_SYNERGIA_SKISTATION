@@ -50,7 +50,6 @@ stage('MVN SONARQUBE') {
        stage('Deploiment Artifact a Nexus') {
             steps {
                 script {
-                    // Change the working directory to the 'kaddem' subdirectory
 
                         sh "mvn deploy -DskipTests"
 
@@ -95,15 +94,16 @@ stage('MVN SONARQUBE') {
                                   }
                                        stage('Email Notification') {
                                            steps {
-                                               mail (
-                                                   to: 'rania99belhajyoussef@gmail.com',
-                                                   subject: 'Jenkins Build Notification',
-                                                   body: '''
-                                                   hello welcome to Jenkins emails alert
-                                                   thanks
-                                                   Rania
-                                                   '''
-                                               )
+                                                emailext(
+                                                                     subject: "Build #${currentBuild.number} Successful: ${currentBuild.fullDisplayName}",
+                                                                     body: """
+                                                                         The build was successful!
+                                                                         Build Details: ${BUILD_URL}
+                                                                         Build Number: ${currentBuild.number}
+                                                                         Build Status: ${currentBuild.currentResult}
+                                                                     """,
+                                                                     to: 'rania99belhajyoussef@gmail.com'
+                                                                 )
                                            }
                                        }
     }
