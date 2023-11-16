@@ -42,10 +42,9 @@ public class InstructorServicesMockitoTests {
         Instructor ins = instructorServices.retrieveInstructor(1234567L);
         assertEquals(ins.getNumInstructor(),instructor.getNumInstructor());
         Mockito.when(instructorRepository.save(Mockito.any(Instructor.class))).thenReturn(Instructor.builder().numInstructor(1234567L).firstName("Sawy").lastName("Gh").dateOfHire(LocalDate.of(2023,10,19)).build());
-        assertNotEquals("Instructor Updated", instructor.getNumInstructor());
         Instructor updatedInstructor = instructorServices.addInstructor(instructor);
         assertNotNull(updatedInstructor);
-        assertNotEquals("Instructor Updated",updatedInstructor.getNumInstructor());
+
     }
 
 }
