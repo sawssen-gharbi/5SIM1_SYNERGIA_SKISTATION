@@ -85,7 +85,7 @@ sh 'mvn install -Dmaven.test.failure.ignore=true test'            }
 
                 stage('DOCKER DEPLOY') {
                              steps {
-                                 withCredentials([usernamePassword(credentialsId: 'mejriachref', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
+                                 withCredentials([usernamePassword(credentialsId: 'dockernew', usernameVariable: 'DOCKERHUB_USERNAME', passwordVariable: 'DOCKERHUB_PASSWORD')]) {
                                              sh 'docker login -u $DOCKERHUB_USERNAME -p $DOCKERHUB_PASSWORD'
                                              sh 'docker push mejriachref/gestionski-devops:1.0'
                                          }
