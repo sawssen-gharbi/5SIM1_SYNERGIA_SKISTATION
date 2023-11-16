@@ -154,11 +154,11 @@ pipeline {
          stage("EMAIL") {
              steps {
                  script {
-                     def buildResult = currentBuild.result ?: 'RESULT' // Providing a default value if currentBuild.result is null
+                     def buildResult = currentBuild.result ?: 'SUCCESS' // Providing a default value if currentBuild.result is null
                      mail (
                          to: 'sawygh@gmail.com',
                          subject: "Build Result: ${buildResult}",
-                         body: "Project: ${env.JOB_NAME} </br> Build Number: ${env.BUILD_NUMBER} </br> URL: ${env.BUILD_URL}",
+                         body: "Project: ${env.JOB_NAME} <br> Build Number: ${env.BUILD_NUMBER} <br> URL: ${env.BUILD_URL}",
                          cc: '',
                          bcc: '',
                          from: '',
