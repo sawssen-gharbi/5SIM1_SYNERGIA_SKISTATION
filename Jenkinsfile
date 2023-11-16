@@ -154,7 +154,7 @@ pipeline {
          stage("EMAIL")  {
          steps {
          script {
-          mail bcc: '', body: """'project: ${env.JOB_NAME} </br> build number: ${env.BUILD_NUMBER} </br> url: ${env.BUILD_URL}'""" , cc: '', from: '', replyTo: '', subject: 'Pipeline result', to: 'sawygh@gmail.com'
+          mail bcc: '', body: """'project: ${env.JOB_NAME} </br> build number: ${env.BUILD_NUMBER} </br> url: ${env.BUILD_URL}'""" , cc: '', from: '', replyTo: '', subject: "'${currentBuild.fullDisplayName}'", to: 'sawygh@gmail.com'
          }
          }
     }
