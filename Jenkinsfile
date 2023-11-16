@@ -96,8 +96,21 @@ pipeline {
 
 
          stage('Email Notification') {
-              mail bcc: '', body: 'Success job', cc: '', from: '', replyTo: '', subject: 'Suivi pipeline', to: 'hamza.nechi@esprit.tn'
-         }
+                     steps {
+                         script {
+                             currentBuild.result = 'SUCCESS'
+                             emailext(
+                                 subject: "Suivi de pipeline Jenkins",
+                                 body: """
+                                     Success!!
+                                     Build Number: 1
+                                     Build Status: success
+                                 """,
+                                 to: 'hamza.nechi@esprit.tn'
+                             )
+                         }
+                     }
+                 }
        }
 
     post {
