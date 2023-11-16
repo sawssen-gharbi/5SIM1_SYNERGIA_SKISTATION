@@ -4,8 +4,7 @@ pipeline {
     stages {
         stage('Récupération du code de la branche') {
             steps {
-                // Vous pouvez spécifier ici comment récupérer le code de la branche
-                // Par exemple, en utilisant Git, remplacez '<achref>' par le nom réel de la branche :
+
                 sh 'git checkout nadine'
                 sh 'git pull'
             }
@@ -40,13 +39,7 @@ stage('MVN SONARQUBE') {
                 sh 'mvn install -Dmaven.test.failure.ignore=true test'
             }
         }
- stage('Package Artifact ') {
-           steps {
 
-                    sh "mvn package -DskipTests"
-
-           }
-        }
        stage('Deploiment Artifact a Nexus') {
             steps {
                 script {
