@@ -150,7 +150,7 @@ pipeline {
 
                    }
          }
-
+//
          stage("EMAIL") {
              steps {
                  script {
