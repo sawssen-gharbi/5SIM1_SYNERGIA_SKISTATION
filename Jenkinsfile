@@ -1,10 +1,6 @@
 pipeline {
- agent {
-        docker {
-            image 'docker:latest'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
-        }
-    }environment {
+    agent any
+environment {
     NEXUS_VERSION = "nexus3"
     NEXUS_PROTOCOL = "http"
     NEXUS_URL = "192.168.33.10:8081"
