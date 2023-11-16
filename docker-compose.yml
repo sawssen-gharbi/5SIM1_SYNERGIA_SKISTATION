@@ -17,7 +17,7 @@ services:
   gestionski-back:
     depends_on:
       - mysqldb
-    image: sawssen97/gestionski-devops:latest
+    image: sawssen97/gestionski-devops:${BUILD_NUMBER}
     build: ./
     env_file: ./.env
     restart: on-failure
