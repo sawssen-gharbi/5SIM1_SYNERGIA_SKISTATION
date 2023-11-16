@@ -102,7 +102,7 @@ stage('email notification') {
   script {
                 emailext body: 'Successful build',
                          subject: 'Pipeline Build',
-                         to: 'mejri.achref@espritt.tn'
+                         to: 'mejri.achref@esprit.tn'
             }    }
 }
 
