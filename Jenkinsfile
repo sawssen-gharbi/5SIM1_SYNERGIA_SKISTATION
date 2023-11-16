@@ -15,13 +15,13 @@ pipeline {
 
 
     stages {
-           stage('GIT') {
+           /*stage('GIT') {
                steps {
 
                    sh 'git checkout sawsen'
                    sh 'git pull'
                      }
-           }
+           }*/
 
       stage('MVN CLEAN') {
                  steps {
